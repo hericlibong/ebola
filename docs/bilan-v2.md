@@ -35,6 +35,8 @@ La validation automatique fonctionne :
 npm run validate:reference
 ```
 
+Le build lance egalement cette validation avant TypeScript et Vite.
+
 ### Methode
 
 La Phase G a stabilise la procedure d'actualisation :
@@ -60,6 +62,8 @@ La maquette actuelle est plus lisible que la V1 :
 - les flux ne sont plus affiches par defaut ;
 - les metadonnees techniques ont ete retirees du panneau principal ;
 - les statuts restent visibles dans la timeline et le tooltip.
+
+Les anciens fichiers de donnees V1 ont ete archives dans `docs/archive/v1-data/` pour eviter la confusion avec le dataset actif.
 
 ## Ce qui ne fonctionne pas encore
 

@@ -1,4 +1,4 @@
-import { csv } from 'd3';
+import { csv } from 'd3-fetch';
 import type { AppData, DataStatus, Event, Flow, Place, Source, ZoneCount } from './types';
 
 const numberOrNull = (value: string | undefined): number | null => {

@@ -1,8 +1,9 @@
 import type { AppData, Event } from './types';
+import { escapeHtml } from './html';
 
 const formatMetric = (label: string, value: number | null): string => {
   if (value === null) return '';
-  return `<span><strong>${value}</strong>${label}</span>`;
+  return `<span><strong>${value}</strong>${escapeHtml(label)}</span>`;
 };
 
 const timelineGroupLabels: Record<string, string> = {
@@ -26,12 +27,12 @@ export function renderStoryPanel(container: HTMLElement, data: AppData, event: E
   ].filter(Boolean);
 
   container.innerHTML = `
-    <p class="eyebrow">${timelineGroupLabels[event.timeline_group] ?? event.timeline_group} - ${period}</p>
-    <h1>${event.headline}</h1>
-    <p class="kicker">${place ? `${place.name}, ${place.country}` : 'Bilan ou contexte non cartographique'}</p>
-    <p class="story-description">${event.fact_text}</p>
-    ${event.quote ? `<blockquote>${event.quote}</blockquote>` : ''}
+    <p class="eyebrow">${escapeHtml(timelineGroupLabels[event.timeline_group] ?? event.timeline_group)} - ${escapeHtml(period)}</p>
+    <h1>${escapeHtml(event.headline)}</h1>
+    <p class="kicker">${escapeHtml(place ? `${place.name}, ${place.country}` : 'Bilan ou contexte non cartographique')}</p>
+    <p class="story-description">${escapeHtml(event.fact_text)}</p>
+    ${event.quote ? `<blockquote>${escapeHtml(event.quote)}</blockquote>` : ''}
     ${metrics.length > 0 ? `<div class="metric-strip">${metrics.join('')}</div>` : ''}
-    <p class="source-line">Source : ${source ? `${source.publisher} - ${source.title}` : event.source_id}</p>
+    <p class="source-line">Source : ${escapeHtml(source ? `${source.publisher} - ${source.title}` : event.source_id)}</p>
   `;
 }

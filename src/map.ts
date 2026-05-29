@@ -1,6 +1,7 @@
 import maplibregl, { type Map, type Marker, type Popup, type StyleSpecification } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { statusColor } from './data';
+import { escapeHtml } from './html';
 import type { AppData, DataStatus, Event, Place, ZoneCount } from './types';
 
 const mapStyle: StyleSpecification = {
@@ -59,11 +60,11 @@ const sourceLabel = (data: AppData, event: Event): string => {
 
 const tooltipHtml = (data: AppData, event: Event, place: Place): string => `
   <article class="event-tooltip">
-    <p class="tooltip-date">${event.date_end ? `${event.date} - ${event.date_end}` : event.date}</p>
-    <h2>${place.name}</h2>
+    <p class="tooltip-date">${escapeHtml(event.date_end ? `${event.date} - ${event.date_end}` : event.date)}</p>
+    <h2>${escapeHtml(place.name)}</h2>
     <p class="tooltip-status is-${event.data_status}">${statusLabels[event.data_status]} - ${confidenceLabels[event.confidence]}</p>
-    <p>${event.fact_text}</p>
-    <footer>${sourceLabel(data, event)}</footer>
+    <p>${escapeHtml(event.fact_text)}</p>
+    <footer>${escapeHtml(sourceLabel(data, event))}</footer>
   </article>
 `;
 
@@ -86,7 +87,7 @@ const renderActiveMarker = (map: Map, data: AppData, activeEvent: Event, onSelec
   markerElement.innerHTML = `
     <span class="case-bubble">${count?.confirmed_cases ?? ''}</span>
     <span class="place-dot"></span>
-    <span class="place-label">${place.name}</span>
+    <span class="place-label">${escapeHtml(place.name)}</span>
   `;
   markerElement.addEventListener('click', () => onSelect(activeEvent));
 
@@ -144,8 +145,4 @@ export function updateMap(map: Map, data: AppData, activeEvent: Event, onSelect:
     duration: 850,
     essential: true,
   });
-}
-
-export function getMapNote(): string {
-  return '';
 }

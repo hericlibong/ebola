@@ -123,10 +123,6 @@ code {
   background: rgba(75, 92, 174, 0.14);
 }
 
-.map-note {
-  display: none;
-}
-
 .place-marker {
   position: relative;
   display: inline-flex;

@@ -58,6 +58,8 @@ Construire l'application :
 npm run build
 ```
 
+Le build lance aussi la validation du jeu de donnees de reference.
+
 ## Documentation
 
 La documentation de travail est dans `docs/`.
@@ -70,6 +72,12 @@ Documents importants :
 - `docs/data-update-procedure.md`
 - `docs/map-interaction-v2.md`
 - `docs/timeline-interaction-v2.md`
+
+Les anciens fichiers de donnees de la V1 sont archives dans :
+
+```text
+docs/archive/v1-data/
+```
 
 ## Statut
 

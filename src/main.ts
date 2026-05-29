@@ -1,6 +1,6 @@
 import './styles.css';
 import { loadData } from './data';
-import { getMapNote, initMap, updateMap } from './map';
+import { initMap, updateMap } from './map';
 import { renderStoryPanel } from './story';
 import { renderTimeline } from './timeline';
 import type { Event } from './types';
@@ -30,7 +30,6 @@ app.innerHTML = `
           <span><i class="reconstructed"></i>Reconstruit</span>
           <span><i class="case-size"></i>Cas ou jalons</span>
         </div>
-        <p id="map-note" class="map-note"></p>
       </section>
       <aside class="story-panel">
         <div id="story"></div>
@@ -49,9 +48,8 @@ let activeEvent: Event = timelineEvents[0] ?? data.events[0];
 const mapElement = document.querySelector<HTMLElement>('#map');
 const storyElement = document.querySelector<HTMLElement>('#story');
 const timelineElement = document.querySelector<HTMLElement>('#timeline');
-const mapNoteElement = document.querySelector<HTMLElement>('#map-note');
 
-if (!mapElement || !storyElement || !timelineElement || !mapNoteElement || !activeEvent) {
+if (!mapElement || !storyElement || !timelineElement || !activeEvent) {
   throw new Error('Initialisation impossible: elements ou donnees manquants.');
 }
 
@@ -66,7 +64,6 @@ const selectEvent = (event: Event): void => {
     onSelect: selectEvent,
   });
   updateMap(map, data, activeEvent, selectEvent);
-  mapNoteElement.textContent = getMapNote();
 };
 
 map = initMap(mapElement, data, activeEvent, selectEvent);
@@ -77,4 +74,3 @@ renderTimeline({
   activeEventId: activeEvent.event_id,
   onSelect: selectEvent,
 });
-mapNoteElement.textContent = getMapNote();

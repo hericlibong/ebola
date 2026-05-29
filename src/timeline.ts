@@ -1,4 +1,5 @@
 import type { Event } from './types';
+import { escapeHtml } from './html';
 
 interface TimelineOptions {
   container: HTMLElement;
@@ -30,9 +31,9 @@ export function renderTimeline({
     button.innerHTML = `
       <span class="step-index is-${event.data_status}"></span>
       <span>
-        <span class="step-date">${event.date_end ? `${event.date} - ${event.date_end}` : event.date}</span>
-        <span class="step-title">${event.headline}</span>
-        <span class="step-kicker">${event.timeline_group.replaceAll('_', ' ')}</span>
+        <span class="step-date">${escapeHtml(event.date_end ? `${event.date} - ${event.date_end}` : event.date)}</span>
+        <span class="step-title">${escapeHtml(event.headline)}</span>
+        <span class="step-kicker">${escapeHtml(event.timeline_group.replaceAll('_', ' '))}</span>
       </span>
     `;
 
