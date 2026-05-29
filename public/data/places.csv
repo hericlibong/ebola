@@ -1,0 +1,12 @@
+place_id,name,country,province,health_zone,place_type,latitude,longitude,geo_precision,notes
+bunia,Bunia,RDC,Ituri,Bunia,city,1.5600,30.2520,approximate,"Premier cas humain documente dans les sources disponibles; coordonnees de ville approximatives."
+mongbwalu,Mongbwalu,RDC,Ituri,Mongbwalu,mining_area,1.9500,30.0330,approximate,"Foyer probable et zone de deces groupes; point place au niveau de la localite."
+rwampara,Rwampara,RDC,Ituri,Rwampara,health_zone,1.4300,30.2100,approximate,"Zone de sante representee par un point approximatif, pas par un lieu precis."
+nyankunde,Nyankunde,RDC,Ituri,Nyankunde,locality,1.4380,30.0290,approximate,"Localite mentionnee dans l'extension documentee; point approche avec une reference aeroport/localite."
+goma,Goma,RDC,Nord-Kivu,Goma,city,-1.6741,29.2285,approximate,"Ville mentionnee dans l'extension documentee."
+katwa,Katwa,RDC,Nord-Kivu,Katwa,health_zone,0.1200,29.2900,approximate,"Zone de sante representee approximativement pres de Butembo."
+butembo,Butembo,RDC,Nord-Kivu,Butembo,city,0.1410,29.2910,approximate,"Ville mentionnee dans l'extension documentee."
+kampala,Kampala,Ouganda,Central Region,Kampala,city,0.3476,32.5825,approximate,"Cas importes documentes; point place au niveau de la ville."
+bukavu,Bukavu,RDC,Sud-Kivu,Bukavu,city,-2.4908,28.8428,approximate,"Lieu potentiel a garder hors affichage narratif tant qu'aucun evenement exploitable n'est retenu."
+aru,Aru,RDC,Ituri,Aru,territory,2.8619,30.8312,approximate,"Lieu potentiel a garder hors affichage narratif tant qu'aucun evenement exploitable n'est retenu."
+kasenyi_tchomia,Kasenyi/Tchomia,RDC,Ituri,Tchomia,corridor,1.4160,30.4590,approximate,"Corridor potentiel represente par un point moyen approximatif entre Kasenyi et Tchomia; a ne pas lire comme localisation precise."

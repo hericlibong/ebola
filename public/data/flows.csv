@@ -1,0 +1,4 @@
+flow_id,date,from_place_id,to_place_id,flow_type,description,source_label,confidence,data_status
+flow_001,2026-04-30,bunia,mongbwalu,body_repatriation,"Rapatriement de corps mentionne dans le recit journalistique; a traiter comme reconstruction narrative prudente.",Jeune Afrique,low,reconstructed
+flow_002,2026-05-11,rwampara,bunia,sample_transport,"Investigations et prelevements associes aux zones documentees avant analyses de laboratoire.",Rapport Markdown,medium,provisional
+flow_003,2026-05-15,rwampara,kampala,patient_travel,"Deplacement documente d'un patient congolais vers Kampala; l'arc ne prouve pas a lui seul une transmission.",Rapport Markdown; OMS; Jeune Afrique,medium,confirmed

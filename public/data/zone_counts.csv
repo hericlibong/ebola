@@ -1,0 +1,8 @@
+date,place_id,confirmed_cases,suspected_cases,confirmed_deaths,suspected_deaths,contacts,source_label,confidence,data_status
+2026-05-20,rwampara,25,,,,,INSP SitRep 20 mai,medium,provisional
+2026-05-20,mongbwalu,13,,,,77,INSP SitRep 20 mai,medium,provisional
+2026-05-20,bunia,6,,,,,INSP SitRep 20 mai,medium,provisional
+2026-05-20,nyankunde,4,,,,,INSP SitRep 20 mai,medium,provisional
+2026-05-20,goma,1,,,,,INSP SitRep 20 mai,medium,provisional
+2026-05-20,katwa,1,,,,,INSP SitRep 20 mai,medium,provisional
+2026-05-20,butembo,1,,,,,INSP SitRep 20 mai,medium,provisional
