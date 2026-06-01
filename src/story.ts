@@ -1,38 +1,64 @@
-import type { AppData, Event } from './types';
+import type { AppData, Event, ZoneCount } from './types';
 import { escapeHtml } from './html';
+import { phaseLabel } from './phases';
 
 const formatMetric = (label: string, value: number | null): string => {
   if (value === null) return '';
   return `<span><strong>${value}</strong>${escapeHtml(label)}</span>`;
 };
 
-const timelineGroupLabels: Record<string, string> = {
-  silent_spread: 'Circulation silencieuse',
-  detection_confirmation: 'Detection et confirmation',
-  regional_spread: 'Extension regionale',
-  response_breakdown: 'Riposte sous pression',
-  cross_border_control: 'Controle transfrontalier',
+// Dernier bilan national RDC connu a la date de l'evenement (ou avant).
+// On ecarte les bilans marques "disputed" pour ne pas afficher de chiffres
+// contradictoires. Avant le 15 mai, aucun bilan n'existe : renvoie undefined.
+const latestDrcTally = (counts: ZoneCount[], date: string): ZoneCount | undefined => {
+  const candidates = counts.filter(
+    (count) =>
+      count.entity_id === 'drc_total' &&
+      count.data_status !== 'disputed' &&
+      count.date <= date,
+  );
+  if (candidates.length === 0) return undefined;
+
+  const maxDate = candidates.reduce((max, count) => (count.date > max ? count.date : max), '');
+  const sameDate = candidates.filter((count) => count.date === maxDate);
+  // A date egale, privilegier la ligne qui porte des cas (et non que des deces).
+  return (
+    sameDate.find((count) => count.suspected_cases !== null || count.confirmed_cases !== null) ??
+    sameDate[0]
+  );
 };
 
 export function renderStoryPanel(container: HTMLElement, data: AppData, event: Event): void {
   const period = event.date_end ? `${event.date} au ${event.date_end}` : event.date;
   const place = data.places.find((item) => item.place_id === event.place_id);
   const source = data.sources.find((item) => item.source_id === event.source_id);
-  const metrics = [
-    formatMetric(' cas confirmes', event.confirmed_cases),
-    formatMetric(' cas suspects', event.suspected_cases),
-    formatMetric(' deces confirmes', event.confirmed_deaths),
-    formatMetric(' deces suspects', event.suspected_deaths),
-    formatMetric(' contacts listes', event.contacts),
-  ].filter(Boolean);
+
+  // Bilan national courant a cette date (rien avant le 15 mai).
+  const tally = latestDrcTally(data.zoneCounts, event.date);
+  const tallyMetrics = tally
+    ? [
+        formatMetric(' confirmes', tally.confirmed_cases),
+        formatMetric(' cas suspects', tally.suspected_cases),
+        formatMetric(' deces suspects', tally.suspected_deaths),
+      ].filter(Boolean)
+    : [];
+  const tallyHtml =
+    tallyMetrics.length > 0
+      ? `
+        <div class="tally">
+          <p class="tally-label">Bilan RDC au ${escapeHtml(tally!.date)}</p>
+          <div class="metric-strip">${tallyMetrics.join('')}</div>
+          <p class="tally-note">Donnees provisoires, majoritairement suspectes et non confirmees.</p>
+        </div>`
+      : '';
 
   container.innerHTML = `
-    <p class="eyebrow">${escapeHtml(timelineGroupLabels[event.timeline_group] ?? event.timeline_group)} - ${escapeHtml(period)}</p>
+    <p class="eyebrow">${escapeHtml(phaseLabel(event.timeline_group))} - ${escapeHtml(period)}</p>
     <h1>${escapeHtml(event.headline)}</h1>
     <p class="kicker">${escapeHtml(place ? `${place.name}, ${place.country}` : 'Bilan ou contexte non cartographique')}</p>
     <p class="story-description">${escapeHtml(event.fact_text)}</p>
     ${event.quote ? `<blockquote>${escapeHtml(event.quote)}</blockquote>` : ''}
-    ${metrics.length > 0 ? `<div class="metric-strip">${metrics.join('')}</div>` : ''}
+    ${tallyHtml}
     <p class="source-line">Source : ${escapeHtml(source ? `${source.publisher} - ${source.title}` : event.source_id)}</p>
   `;
 }

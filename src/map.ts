@@ -1,8 +1,14 @@
 import maplibregl, { type Map, type Marker, type Popup, type StyleSpecification } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { statusColor } from './data';
+import { phaseColor } from './phases';
 import { escapeHtml } from './html';
 import type { AppData, DataStatus, Event, Place, ZoneCount } from './types';
+
+interface MapOptions {
+  activePhase: string | null;
+  fly: boolean;
+}
 
 const mapStyle: StyleSpecification = {
   version: 8,
@@ -25,6 +31,7 @@ const mapStyle: StyleSpecification = {
 
 let activeMarker: Marker | null = null;
 let activePopup: Popup | null = null;
+let phaseMarkers: Marker[] = [];
 
 const hasCoordinates = (place: Place | undefined): place is Place & { latitude: number; longitude: number } =>
   Boolean(place && place.latitude !== null && place.longitude !== null);
@@ -109,6 +116,53 @@ const renderActiveMarker = (map: Map, data: AppData, activeEvent: Event, onSelec
     .addTo(map);
 };
 
+// Marqueurs de phase : quand une phase est active dans la legende, la carte
+// montre les lieux concernes par cette phase (un marqueur par lieu), pour
+// permettre de se concentrer dessus. Un clic selectionne l'evenement le plus
+// structurant du lieu.
+const renderPhaseMarkers = (
+  map: Map,
+  data: AppData,
+  activePhase: string | null,
+  activeEventId: string,
+  onSelect: (event: Event) => void,
+): void => {
+  phaseMarkers.forEach((marker) => marker.remove());
+  phaseMarkers = [];
+  if (!activePhase) return;
+
+  const byPlace: Record<string, Event> = {};
+  data.events
+    .filter((event) => event.timeline_group === activePhase)
+    .forEach((event) => {
+      const current = byPlace[event.place_id];
+      if (!current || event.display_priority < current.display_priority) {
+        byPlace[event.place_id] = event;
+      }
+    });
+
+  Object.values(byPlace).forEach((event) => {
+    if (event.event_id === activeEventId) return; // deja porte par le marqueur actif
+    const place = data.places.find((item) => item.place_id === event.place_id);
+    if (!hasCoordinates(place)) return;
+
+    const element = document.createElement('button');
+    element.type = 'button';
+    element.className = 'phase-marker';
+    element.style.setProperty('--phase-color', phaseColor(activePhase));
+    element.innerHTML = `
+      <span class="phase-dot"></span>
+      <span class="phase-marker-label">${escapeHtml(place.name)}</span>
+    `;
+    element.addEventListener('click', () => onSelect(event));
+
+    const marker = new maplibregl.Marker({ element, anchor: 'left' })
+      .setLngLat([place.longitude, place.latitude])
+      .addTo(map);
+    phaseMarkers.push(marker);
+  });
+};
+
 export function initMap(
   container: HTMLElement,
   data: AppData,
@@ -133,8 +187,17 @@ export function initMap(
   return map;
 }
 
-export function updateMap(map: Map, data: AppData, activeEvent: Event, onSelect: (event: Event) => void): void {
+export function updateMap(
+  map: Map,
+  data: AppData,
+  activeEvent: Event,
+  onSelect: (event: Event) => void,
+  options: MapOptions,
+): void {
   renderActiveMarker(map, data, activeEvent, onSelect);
+  renderPhaseMarkers(map, data, options.activePhase, activeEvent.event_id, onSelect);
+
+  if (!options.fly) return;
 
   const place = data.places.find((item) => item.place_id === activeEvent.place_id);
   if (!hasCoordinates(place)) return;

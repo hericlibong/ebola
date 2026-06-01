@@ -1,6 +1,6 @@
 import './styles.css';
 import { loadData } from './data';
-import { initMap, updateMap } from './map';
+import { initStaticMap, renderStaticMap } from './staticMap';
 import { renderStoryPanel } from './story';
 import { renderTimeline } from './timeline';
 import type { Event } from './types';
@@ -24,12 +24,6 @@ app.innerHTML = `
     <section class="story-module" aria-label="Storymap Ebola Bundibugyo">
       <section class="map-panel">
         <div id="map" aria-label="Carte de l'est de la RDC et de l'Ouganda"></div>
-        <div class="legend" aria-label="Legende">
-          <span><i class="confirmed"></i>Confirme</span>
-          <span><i class="provisional"></i>Provisoire</span>
-          <span><i class="reconstructed"></i>Reconstruit</span>
-          <span><i class="case-size"></i>Cas ou jalons</span>
-        </div>
       </section>
       <aside class="story-panel">
         <div id="story"></div>
@@ -53,24 +47,33 @@ if (!mapElement || !storyElement || !timelineElement || !activeEvent) {
   throw new Error('Initialisation impossible: elements ou donnees manquants.');
 }
 
-let map: ReturnType<typeof initMap>;
-const selectEvent = (event: Event): void => {
-  activeEvent = event;
-  renderStoryPanel(storyElement, data, activeEvent);
+let activePhase: string | null = null;
+
+const drawTimeline = (): void => {
   renderTimeline({
     container: timelineElement,
     events: timelineEvents,
     activeEventId: activeEvent.event_id,
+    activePhase,
     onSelect: selectEvent,
+    onPhaseToggle: togglePhase,
   });
-  updateMap(map, data, activeEvent, selectEvent);
 };
 
-map = initMap(mapElement, data, activeEvent, selectEvent);
+const selectEvent = (event: Event): void => {
+  activeEvent = event;
+  renderStoryPanel(storyElement, data, activeEvent);
+  drawTimeline();
+  renderStaticMap(data, activeEvent, activePhase, selectEvent);
+};
+
+const togglePhase = (phase: string): void => {
+  activePhase = activePhase === phase ? null : phase;
+  drawTimeline();
+  renderStaticMap(data, activeEvent, activePhase, selectEvent);
+};
+
+await initStaticMap(mapElement);
+renderStaticMap(data, activeEvent, activePhase, selectEvent);
 renderStoryPanel(storyElement, data, activeEvent);
-renderTimeline({
-  container: timelineElement,
-  events: timelineEvents,
-  activeEventId: activeEvent.event_id,
-  onSelect: selectEvent,
-});
+drawTimeline();
