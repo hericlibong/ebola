@@ -99,11 +99,13 @@ Note : le bandeau de phase dans l'eyebrow du panneau recit est **conserve**
   fond de la carte.
 - [x] **C2 — Symboles proportionnels** (taille = cas confirmes par zone, via
   `counts.csv`). Bulles derriere les points, aire proportionnelle aux cas.
-  La ventilation par zone n'existant qu'au 20 mai (point INSP), les bulles
-  apparaissent a partir du 20 mai (dernier instantane <= date, rien avant) et
-  sont etiquetees « au 20 mai ». Rwampara 25 / Mongbwalu 13 / Bunia 6 /
-  Nyankunde 4 / Goma 1. Implementation : `src/staticMap.ts` (`zoneCases`,
-  `bubbleRadius`, `.case-bubble`).
+  La ventilation par zone n'etant fiable qu'au 20 mai (point INSP), les bulles
+  s'affichent **uniquement a la date exacte du 20 mai** (photographie qui
+  ponctue la timeline), pas apres. Rwampara 25 / Mongbwalu 13 / Bunia 6 /
+  Nyankunde 4 / Goma 1. Dans le panneau recit, la repartition est donnee en
+  **phrase** (et non en tableau), elle aussi seulement au 20 mai.
+  Implementation : `src/staticMap.ts` (`zoneCases`, `bubbleRadius`,
+  `.case-bubble`), `src/story.ts` (`zoneBreakdown`, `.tally-zones`).
 - [ ] **C3 — Polish editorial** : encart Afrique « Zone de detail », echelle,
   note de source/incertitude persistante.
 - [ ] **C4 — Annotation active sur la carte** (callout + ligne de rappel) pour
@@ -127,5 +129,23 @@ Note : le bandeau de phase dans l'eyebrow du panneau recit est **conserve**
    (encart / echelle / note de source). Prealable avant toute couche (C1, C2).
 2. **R1 + R3.** Polish recit peu couteux qui assume l'incertitude.
 
-Ensuite seulement : C1 (arcs), puis le reste (R4, R5, C2, C4, C5), un point a
+Ensuite seulement : C1 (arcs), puis le reste (R4, R5, C4, C5), un point a
 la fois.
+
+---
+
+## Cas par zone (C2) — decision tranchee
+
+Probleme initial : C2 affichait une photographie figee au 20 mai mais la gardait
+visible pour les dates suivantes, alors que le total national, lui, augmente —
+incoherent (cas par ville statiques vs maladie qui evolue).
+
+Verification : les rapports CDC recents (28-31 mai) sont nationaux, sans detail
+par ville. Les chiffres par ville (issus d'articles) ne sont fiables qu'au
+20 mai.
+
+**Decision appliquee** : la repartition par ville (bulles carte + texte) ne
+s'affiche **que le 20 mai**, comme une photographie ponctuelle qui rythme la
+timeline. Plus de persistance apres cette date. Reste a faire eventuellement :
+preciser dans le texte que, au-dela du 20 mai, la repartition par ville n'est
+pas assez fiable.

@@ -171,20 +171,19 @@ function leadEvent(data: AppData, placeId: string): Event | undefined {
     .sort((a, b) => a.display_priority - b.display_priority)[0];
 }
 
-// C2 — cas confirmes par zone de sante. La ventilation par zone n'existe qu'au
-// 20 mai (point INSP) : on renvoie ce dernier instantane connu <= date active,
-// donc rien avant le 20 mai.
+// C2 — cas confirmes par zone de sante. La ventilation par zone n'existe et
+// n'est fiable qu'au 20 mai (point INSP). On l'affiche donc UNIQUEMENT a la date
+// exacte du 20 mai (photographie qui ponctue la timeline), pas apres : les
+// chiffres nationaux evoluent ensuite, mais pas la repartition par ville.
 function zoneCases(data: AppData, placeId: string, date: string): number | null {
-  const rows = data.zoneCounts
-    .filter(
-      (c) =>
-        c.entity_id === placeId &&
-        c.entity_type === 'health_zone' &&
-        c.confirmed_cases != null &&
-        c.date <= date,
-    )
-    .sort((a, b) => b.date.localeCompare(a.date));
-  return rows[0]?.confirmed_cases ?? null;
+  const row = data.zoneCounts.find(
+    (c) =>
+      c.entity_id === placeId &&
+      c.entity_type === 'health_zone' &&
+      c.confirmed_cases != null &&
+      c.date === date,
+  );
+  return row?.confirmed_cases ?? null;
 }
 
 // Rayon proportionnel a la SURFACE (aire ∝ cas), pas au rayon.

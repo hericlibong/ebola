@@ -371,28 +371,59 @@ blockquote {
   margin-top: 8px;
 }
 
-.tally-sub {
-  margin-top: 13px;
+/* Courbe d'evolution nationale (panneau recit) */
+.evo-curve {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-top: 8px;
 }
+.evo-line { fill: none; }
+.evo-line.evo-confirmed { stroke: #15745f; stroke-width: 2.2; }
+.evo-line.evo-suspected { stroke: #c8913c; stroke-width: 1.6; }
+.evo-line.evo-deaths { stroke: #b5403a; stroke-width: 1.6; }
+.evo-dot { stroke: #ffffff; stroke-width: 1; }
+.evo-dot.evo-confirmed { fill: #15745f; }
+.evo-dot.evo-suspected { fill: #c8913c; }
+.evo-dot.evo-deaths { fill: #b5403a; }
+.evo-axis { stroke: rgba(32, 36, 42, 0.25); }
+.evo-now { stroke: rgba(32, 36, 42, 0.18); stroke-dasharray: 2 2; }
+.evo-axis-label { fill: #8a8275; font-size: 9px; }
 
-.zone-list {
-  margin: 7px 0 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 2px;
-}
-
-.zone-list li {
+.evo-legend {
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 3px;
-  border-bottom: 1px dotted rgba(32, 36, 42, 0.16);
-  font-size: 0.84rem;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 5px;
+  color: #4f514e;
+  font-size: 0.72rem;
+}
+.evo-key { display: inline-flex; align-items: center; gap: 5px; }
+.evo-key::before { content: ''; width: 13px; height: 3px; border-radius: 2px; }
+.evo-key.evo-confirmed::before { background: #15745f; }
+.evo-key.evo-suspected::before { background: #c8913c; }
+.evo-key.evo-deaths::before { background: #b5403a; }
+
+.tally-figure {
+  margin: 9px 0 0;
+  color: #30343a;
+  font-size: 0.88rem;
+}
+.tally-figure strong { font-variant-numeric: tabular-nums; }
+
+.tally-zones {
+  margin: 12px 0 0;
+  color: #30343a;
+  font-size: 0.86rem;
+  line-height: 1.45;
 }
 
-.zone-list strong {
+.tally-zones-label {
+  font-weight: 800;
+  color: #6a6258;
+}
+
+.tally-zones strong {
   font-variant-numeric: tabular-nums;
 }
 
