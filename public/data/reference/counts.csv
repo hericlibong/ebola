@@ -16,3 +16,6 @@ ct_20260526_drc_who,2026-05-26,drc_total,country_total,,900,,223,,deep_report_20
 ct_20260527_drc_ap,2026-05-27,drc_total,country_total,100,1000,,220,,deep_report_2026_05_27,medium,provisional,AP parle de plus de 100 cas confirmes et pres de 1000 suspects.
 ct_20260528_drc_ja_oms,2026-05-28,drc_total,country_total,,1000,,223,,ja_2026_05_28_border,medium,provisional,Plus de 1000 cas suspects et 223 deces selon OMS citee par Jeune Afrique.
 ct_20260528_drc_gov_elpais,2026-05-28,drc_total,country_total,,,,238,,elpais_2026_05_28_238,medium,provisional,238 deces suspects selon gouvernement congolais rapporte par El Pais; a recouper.
+ct_20260529_drc_cdc,2026-05-29,drc_total,country_total,203,1139,17,246,2987,africacdc_2026_05_29,high,provisional,Bilan Africa CDC au 29 mai; hausse des confirmes liee au destockage du retard de laboratoire.
+ct_20260530_drc_cdc,2026-05-30,drc_total,country_total,254,1199,42,259,3200,africacdc_2026_05_30,high,provisional,Bilan Africa CDC au 30 mai; 51 nouveaux confirmes et aucun nouveau deces.
+ct_20260531_drc_cdc,2026-05-31,drc_total,country_total,282,321,42,,3200,africacdc_2026_05_31,high,provisional,Bilan Africa CDC au 31 mai; cas suspects reclasses de 1199 a 321 apres confirmation laboratoire.

@@ -39,7 +39,7 @@ map_layer,constraint,Contraintes,Conflit attaques defiance logistique,purple
 timeline_group,silent_spread,Circulation silencieuse,Avant l'alerte officielle,phase1
 timeline_group,detection_confirmation,Detection et confirmation,Alerte investigations confirmation,phase2
 timeline_group,regional_spread,Extension regionale,Ituri Nord-Kivu Sud-Kivu Ouganda,phase3
-timeline_group,response_breakdown,Riposte sous pression,Attaques defiance contact tracing acces,phase4
+timeline_group,response_breakdown,Riposte debordee,Attaques defiance contact tracing et manque de moyens,phase4
 timeline_group,cross_border_control,Controle transfrontalier,Fermeture frontiere isolement quarantaine,phase5
 display_tier,primary,Principal,Evenement structurant a afficher et annoter en priorite,strong
 display_tier,secondary,Secondaire,Evenement utile a afficher en point ou dans une fiche secondaire,medium
