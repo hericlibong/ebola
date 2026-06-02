@@ -297,12 +297,22 @@ code {
   background: #a73b38;
 }
 
+/* Le panneau ne pilote PAS la hauteur de la rangee (sinon le bloc saute quand
+   le texte change selon la date). C'est la carte (hauteur = largeur x ratio,
+   donc stable) qui fixe la rangee ; le texte defile dans un calque interne. */
 .story-panel {
-  min-height: 480px;
-  padding: 24px 24px 20px;
+  position: relative;
+  min-height: 0;
   border-left: 1px solid rgba(32, 36, 42, 0.14);
   background: #fffdf8;
+  overflow: hidden;
+}
+
+#story {
+  position: absolute;
+  inset: 0;
   overflow-y: auto;
+  padding: 24px 24px 20px;
 }
 
 .eyebrow {
@@ -359,6 +369,31 @@ blockquote {
 
 .tally .metric-strip {
   margin-top: 8px;
+}
+
+.tally-sub {
+  margin-top: 13px;
+}
+
+.zone-list {
+  margin: 7px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 2px;
+}
+
+.zone-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 3px;
+  border-bottom: 1px dotted rgba(32, 36, 42, 0.16);
+  font-size: 0.84rem;
+}
+
+.zone-list strong {
+  font-variant-numeric: tabular-nums;
 }
 
 .tally-note {
@@ -526,6 +561,29 @@ blockquote {
 .map-place.is-active .place-name { font-size: 20px; }
 .map-place.is-dimmed { opacity: 0.28; }
 .map-place[style*="--phase-color"] .place-pin { fill: var(--phase-color); }
+
+/* C2 — bulles de cas par zone (instantane du 20 mai) */
+.case-bubble {
+  fill: rgba(176, 64, 58, 0.2);
+  stroke: rgba(176, 64, 58, 0.55);
+  stroke-width: 0.8;
+  pointer-events: none;
+}
+.case-bubble.is-dimmed { opacity: 0.22; }
+.case-legend-bg {
+  fill: rgba(252, 250, 246, 0.86);
+  stroke: rgba(32, 36, 42, 0.18);
+  stroke-width: 1;
+}
+.case-legend-title { fill: #33373d; font-size: 13px; font-weight: 800; }
+.case-legend-sub { fill: #6a6258; font-size: 11px; }
+.case-legend-num {
+  fill: #33373d;
+  font-size: 11px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
 
 .map-inset {
   position: absolute;
@@ -754,9 +812,16 @@ blockquote {
     grid-template-rows: auto auto auto;
   }
 
+  /* En mobile (empile), le texte reprend un flux normal (pas de calque). */
   .story-panel {
     min-height: auto;
     border-left: 0;
     border-top: 1px solid rgba(32, 36, 42, 0.14);
+    overflow: visible;
+  }
+
+  #story {
+    position: static;
+    padding: 22px 20px;
   }
 }

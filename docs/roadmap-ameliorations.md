@@ -21,8 +21,8 @@ on evite les dedoublements d'information.
   annules. Plus rien de prevu cote timeline.
 - **Recit : R2 fait.** Restent R1, R3, R4, R5.
 - **Carte : amorce faite** (marqueurs de phase via la legende). C1 en
-  **stand-by** (a faire seulement une fois la carte au point). Restent C3, C4,
-  C5 ; C2 reserve ; aplat de zone annule.
+  **stand-by** (a faire seulement une fois la carte au point). C2 fait.
+  Restent C3, C4, C5 ; aplat de zone annule.
 - **Priorite : mettre la carte au point (fond, cadrage, lisibilite, polish
   C3)** avant tout ajout de couches (arcs C1, symboles C2).
 
@@ -97,8 +97,13 @@ Note : le bandeau de phase dans l'eyebrow du panneau recit est **conserve**
   **En attente** (decision editeur) : a ne faire qu'une fois la carte au point ;
   des essais anterieurs parasitaient la carte. Reprendre apres le polish de
   fond de la carte.
-- [ ] **C2 — Symboles proportionnels** (taille des points carte = ampleur, via
-  `counts.csv` par zone de sante).
+- [x] **C2 — Symboles proportionnels** (taille = cas confirmes par zone, via
+  `counts.csv`). Bulles derriere les points, aire proportionnelle aux cas.
+  La ventilation par zone n'existant qu'au 20 mai (point INSP), les bulles
+  apparaissent a partir du 20 mai (dernier instantane <= date, rien avant) et
+  sont etiquetees « au 20 mai ». Rwampara 25 / Mongbwalu 13 / Bunia 6 /
+  Nyankunde 4 / Goma 1. Implementation : `src/staticMap.ts` (`zoneCases`,
+  `bubbleRadius`, `.case-bubble`).
 - [ ] **C3 — Polish editorial** : encart Afrique « Zone de detail », echelle,
   note de source/incertitude persistante.
 - [ ] **C4 — Annotation active sur la carte** (callout + ligne de rappel) pour

@@ -171,6 +171,36 @@ function leadEvent(data: AppData, placeId: string): Event | undefined {
     .sort((a, b) => a.display_priority - b.display_priority)[0];
 }
 
+// C2 — cas confirmes par zone de sante. La ventilation par zone n'existe qu'au
+// 20 mai (point INSP) : on renvoie ce dernier instantane connu <= date active,
+// donc rien avant le 20 mai.
+function zoneCases(data: AppData, placeId: string, date: string): number | null {
+  const rows = data.zoneCounts
+    .filter(
+      (c) =>
+        c.entity_id === placeId &&
+        c.entity_type === 'health_zone' &&
+        c.confirmed_cases != null &&
+        c.date <= date,
+    )
+    .sort((a, b) => b.date.localeCompare(a.date));
+  return rows[0]?.confirmed_cases ?? null;
+}
+
+// Rayon proportionnel a la SURFACE (aire ∝ cas), pas au rayon.
+const bubbleRadius = (cases: number): number => 4 + 4.2 * Math.sqrt(cases);
+
+function caseLegendMarkup(): string {
+  return `
+    <rect class="case-legend-bg" x="8" y="10" width="150" height="92" rx="2" />
+    <text class="case-legend-title" x="18" y="30">Cas confirmes</text>
+    <text class="case-legend-sub" x="18" y="45">par zone, au 20 mai</text>
+    <circle class="case-bubble" cx="42" cy="75" r="${bubbleRadius(25).toFixed(1)}" />
+    <text class="case-legend-num" x="42" y="75">25</text>
+    <circle class="case-bubble" cx="112" cy="75" r="${bubbleRadius(5).toFixed(1)}" />
+    <text class="case-legend-num" x="112" y="75">5</text>`;
+}
+
 export async function initStaticMap(container: HTMLElement): Promise<void> {
   await loadGeo();
   container.innerHTML = `
@@ -191,7 +221,37 @@ export function renderStaticMap(
   if (!overlay) return;
   overlay.replaceChildren();
 
-  citedPlaces(data).forEach((place) => {
+  const places = citedPlaces(data);
+
+  // C2 — bulles proportionnelles aux cas par zone (instantane du 20 mai),
+  // dessinees AVANT les points pour rester en arriere-plan.
+  let bubbles = 0;
+  places.forEach((place) => {
+    const cases = zoneCases(data, place.place_id, activeEvent.date);
+    if (cases == null) return;
+    const cfg = PLACE_LABEL[place.place_id] ?? DEFAULT_LABEL;
+    const [x, y] = project(cfg.lon ?? (place.longitude as number), cfg.lat ?? (place.latitude as number));
+    const placePhases = new Set(
+      data.events.filter((e) => e.place_id === place.place_id).map((e) => e.timeline_group),
+    );
+    const dimmed = activePhase !== null && !placePhases.has(activePhase);
+    overlay!.appendChild(
+      el('circle', {
+        class: `case-bubble ${dimmed ? 'is-dimmed' : ''}`,
+        cx: x.toFixed(1),
+        cy: y.toFixed(1),
+        r: bubbleRadius(cases).toFixed(1),
+      }),
+    );
+    bubbles += 1;
+  });
+  if (bubbles > 0) {
+    const legend = el('g', { class: 'case-legend' });
+    legend.innerHTML = caseLegendMarkup();
+    overlay.appendChild(legend);
+  }
+
+  places.forEach((place) => {
     const lead = leadEvent(data, place.place_id);
     if (!lead) return;
     const cfg = PLACE_LABEL[place.place_id] ?? DEFAULT_LABEL;

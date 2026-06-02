@@ -28,6 +28,27 @@ const latestDrcTally = (counts: ZoneCount[], date: string): ZoneCount | undefine
   );
 };
 
+// Repartition des cas confirmes par zone de sante au dernier instantane connu
+// (<= date). Cette ventilation n'existe qu'au 20 mai (point INSP).
+function zoneBreakdown(
+  data: AppData,
+  date: string,
+): { date: string; items: { name: string; cases: number }[] } | null {
+  const rows = data.zoneCounts.filter(
+    (c) => c.entity_type === 'health_zone' && c.confirmed_cases != null && c.date <= date,
+  );
+  if (rows.length === 0) return null;
+  const maxDate = rows.reduce((max, c) => (c.date > max ? c.date : max), '');
+  const items = rows
+    .filter((c) => c.date === maxDate)
+    .map((c) => ({
+      name: data.places.find((p) => p.place_id === c.entity_id)?.name ?? c.entity_id,
+      cases: c.confirmed_cases as number,
+    }))
+    .sort((a, b) => b.cases - a.cases);
+  return { date: maxDate, items };
+}
+
 export function renderStoryPanel(container: HTMLElement, data: AppData, event: Event): void {
   const period = event.date_end ? `${event.date} au ${event.date_end}` : event.date;
   const place = data.places.find((item) => item.place_id === event.place_id);
@@ -42,12 +63,25 @@ export function renderStoryPanel(container: HTMLElement, data: AppData, event: E
         formatMetric(' deces suspects', tally.suspected_deaths),
       ].filter(Boolean)
     : [];
+  const breakdown = zoneBreakdown(data, event.date);
+  const breakdownHtml =
+    breakdown && breakdown.items.length > 0
+      ? `
+          <p class="tally-label tally-sub">Cas confirmes par zone, au ${escapeHtml(breakdown.date)}</p>
+          <ul class="zone-list">
+            ${breakdown.items
+              .map((z) => `<li><span>${escapeHtml(z.name)}</span><strong>${z.cases}</strong></li>`)
+              .join('')}
+          </ul>`
+      : '';
+
   const tallyHtml =
     tallyMetrics.length > 0
       ? `
         <div class="tally">
           <p class="tally-label">Bilan RDC au ${escapeHtml(tally!.date)}</p>
           <div class="metric-strip">${tallyMetrics.join('')}</div>
+          ${breakdownHtml}
           <p class="tally-note">Donnees provisoires, majoritairement suspectes et non confirmees.</p>
         </div>`
       : '';
