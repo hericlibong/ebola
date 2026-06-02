@@ -20,6 +20,16 @@ Il ne remplace pas les sources. Il sert a documenter les ajouts, corrections et 
 - Borne de validation des dates portee de 2026-05-28 a 2026-05-31.
 - Note : la repartition des cas **par ville** reste figee au 20 mai (seul point
   INSP fiable) ; les rapports CDC sont nationaux, sans detail par ville.
+- **Bulletins de chiffres sortis de la timeline** : les `situation_update` qui
+  ne font que reporter le total national (25 mai 904 divergent, 26 mai, 28 mai
+  238 deces, bulletins CDC 29/30/31) passent en `display_tier = context`. Ils
+  restent dans `events.csv` mais ne sont plus des points de la timeline : la
+  **courbe d'evolution** (panneau, depuis `counts.csv`) porte desormais ces
+  chiffres. Conserves comme points : 20 mai (ancre de la photo par zone) et
+  22 mai (l'OMS releve le risque national).
+- **Phase renommee** : `response_breakdown` passe de « Riposte sous pression »
+  a « Riposte debordee » (label dans `labels.csv` et `src/phases.ts`), plus
+  clair et debarrasse de l'amalgame avec les compteurs.
 
 ## 2026-05-29
 

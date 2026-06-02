@@ -11,7 +11,7 @@ export const PHASES: Phase[] = [
   { key: 'silent_spread', label: 'Circulation silencieuse', color: '#8a96a3' },
   { key: 'detection_confirmation', label: 'Detection et confirmation', color: '#5b7fa6' },
   { key: 'regional_spread', label: 'Extension regionale', color: '#c89b3c' },
-  { key: 'response_breakdown', label: 'Riposte sous pression', color: '#b1542f' },
+  { key: 'response_breakdown', label: 'Riposte debordee', color: '#b1542f' },
   { key: 'cross_border_control', label: 'Controle transfrontalier', color: '#6d5a8a' },
 ];
 
