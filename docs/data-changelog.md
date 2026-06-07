@@ -4,6 +4,23 @@ Ce fichier suit les changements substantiels apportes au jeu de donnees de refer
 
 Il ne remplace pas les sources. Il sert a documenter les ajouts, corrections et points a verifier.
 
+## 2026-06-07
+
+- Extension de la chronologie aux **1-5 juin** (rapports quotidiens Africa CDC) :
+  5 bilans nationaux (`counts.csv`), 5 sources, et **4 evenements narratifs**
+  (extension a de nouvelles zones de sante en Ituri ; attaque de l'equipe
+  Croix-Rouge a Bunia le 1er juin ; attaque a Mongbwalu + 19 cas en fuite le
+  4 juin ; saturation des lits a Bunia et flambee de 105 cas le 5 juin).
+- Les PDF CDC (29 mai -> 5 juin) sont ranges dans `sources_pdf_cdc/`.
+- **Correction d'incoherence (deces)** : le panneau affichait un seul « deces »
+  qui changeait de type selon la date (suspects un jour, confirmes un autre),
+  donnant de fausses baisses (ex. 246 -> 42). Desormais on **separe toujours**
+  « deces confirmes » et « deces suspects ». La courbe utilise les **deces
+  confirmes** (serie fiable et croissante : 17 -> 42 -> 78).
+- Borne de validation portee au 2026-06-05.
+- Reste a faire (voir `docs/prochaines-etapes.md`) : controles de coherence
+  automatiques dans le script de validation.
+
 ## 2026-06-02
 
 - Extension de la chronologie aux **29, 30 et 31 mai** a partir des rapports
