@@ -1,5 +1,6 @@
 import { geoPath, geoTransform } from 'd3-geo';
 import { json } from 'd3-fetch';
+import { assetPath } from './assetPath';
 import { escapeHtml } from './html';
 import { phaseColor } from './phases';
 import type { AppData, Event, Place } from './types';
@@ -64,7 +65,7 @@ let overlay: SVGGElement | null = null;
 async function loadGeo(): Promise<Record<string, FeatureCollection>> {
   if (geo) return geo;
   const names = ['countries', 'provinces', 'lakes', 'rivers', 'roads', 'africa'];
-  const loaded = await Promise.all(names.map((n) => json<FeatureCollection>(`/geo/${n}.json`)));
+  const loaded = await Promise.all(names.map((n) => json<FeatureCollection>(assetPath(`/geo/${n}.json`))));
   geo = Object.fromEntries(names.map((n, i) => [n, loaded[i]!])) as Record<string, FeatureCollection>;
   return geo;
 }
@@ -144,7 +145,7 @@ function buildBasemap(): string {
 
   return `
     <rect x="0" y="0" width="${W}" height="${H}" class="map-base" />
-    <image href="/geo/hillshade.png" x="0" y="0" width="${W}" height="${H}" class="map-relief" />
+    <image href="${assetPath('/geo/hillshade.png')}" x="0" y="0" width="${W}" height="${H}" class="map-relief" />
     <path d="${ituriD}" class="province-focus" />
     <path d="${d(geo.roads)}" class="map-roads" />
     <path d="${d(geo.rivers)}" class="map-rivers" />

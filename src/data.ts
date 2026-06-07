@@ -1,4 +1,5 @@
 import { csv } from 'd3-fetch';
+import { assetPath } from './assetPath';
 import type { AppData, DataStatus, Event, Flow, Place, Source, ZoneCount } from './types';
 
 const numberOrNull = (value: string | undefined): number | null => {
@@ -31,11 +32,11 @@ export const statusColor: Record<DataStatus, string> = {
 
 export async function loadData(): Promise<AppData> {
   const [placesRows, eventsRows, flowsRows, countRows, sourceRows] = await Promise.all([
-    csv('/data/reference/places.csv'),
-    csv('/data/reference/events.csv'),
-    csv('/data/reference/flows.csv'),
-    csv('/data/reference/counts.csv'),
-    csv('/data/reference/sources.csv'),
+    csv(assetPath('/data/reference/places.csv')),
+    csv(assetPath('/data/reference/events.csv')),
+    csv(assetPath('/data/reference/flows.csv')),
+    csv(assetPath('/data/reference/counts.csv')),
+    csv(assetPath('/data/reference/sources.csv')),
   ]);
 
   const places: Place[] = placesRows.map((row) => ({
