@@ -112,8 +112,8 @@ for (const row of counts) {
   });
 }
 
-if (events.some((row) => row.date > '2026-05-31')) {
-  warnings.push('events contain dates after 2026-05-31');
+if (events.some((row) => row.date > '2026-06-05')) {
+  warnings.push('events contain dates after 2026-06-05');
 }
 
 if (errors.length > 0) {

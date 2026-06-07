@@ -19,3 +19,8 @@ ct_20260528_drc_gov_elpais,2026-05-28,drc_total,country_total,,,,238,,elpais_202
 ct_20260529_drc_cdc,2026-05-29,drc_total,country_total,203,1139,17,246,2987,africacdc_2026_05_29,high,provisional,Bilan Africa CDC au 29 mai; hausse des confirmes liee au destockage du retard de laboratoire.
 ct_20260530_drc_cdc,2026-05-30,drc_total,country_total,254,1199,42,259,3200,africacdc_2026_05_30,high,provisional,Bilan Africa CDC au 30 mai; 51 nouveaux confirmes et aucun nouveau deces.
 ct_20260531_drc_cdc,2026-05-31,drc_total,country_total,282,321,42,,3200,africacdc_2026_05_31,high,provisional,Bilan Africa CDC au 31 mai; cas suspects reclasses de 1199 a 321 apres confirmation laboratoire.
+ct_20260601_drc_cdc,2026-06-01,drc_total,country_total,321,321,48,,3200,africacdc_2026_06_01,high,provisional,Bilan Africa CDC au 1 juin; nouvelle zone de sante Logo en Ituri.
+ct_20260602_drc_cdc,2026-06-02,drc_total,country_total,344,225,60,259,4341,africacdc_2026_06_02,high,provisional,Bilan Africa CDC au 2 juin; reclassements; attaque equipe Croix-Rouge a Bunia.
+ct_20260603_drc_cdc,2026-06-03,drc_total,country_total,363,308,62,259,4341,africacdc_2026_06_03,high,provisional,Bilan Africa CDC au 3 juin.
+ct_20260604_drc_cdc,2026-06-04,drc_total,country_total,381,308,62,259,4341,africacdc_2026_06_04,high,provisional,Bilan Africa CDC au 4 juin; 19 cas en fuite; attaque a Mongbwalu.
+ct_20260605_drc_cdc,2026-06-05,drc_total,country_total,486,308,78,259,5103,africacdc_2026_06_05,high,provisional,Bilan Africa CDC au 5 juin; 105 nouveaux cas; lits satures a Bunia.

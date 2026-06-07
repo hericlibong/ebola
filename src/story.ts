@@ -51,7 +51,7 @@ function zoneBreakdown(
 
 // --- Courbe d'evolution nationale (total RDC dans le temps) ---
 // Distincte de la photo par ville : ici c'est la PROGRESSION du total national.
-type DrcField = 'confirmed_cases' | 'suspected_cases' | 'suspected_deaths';
+type DrcField = 'confirmed_cases' | 'suspected_cases' | 'confirmed_deaths' | 'suspected_deaths';
 
 function drcSeries(data: AppData, field: DrcField): { day: number; value: number }[] {
   const byDate = new Map<string, number>();
@@ -70,7 +70,7 @@ function drcSeries(data: AppData, field: DrcField): { day: number; value: number
 function evolutionCurveSvg(data: AppData, selectedDate: string): string {
   const conf = drcSeries(data, 'confirmed_cases');
   const susp = drcSeries(data, 'suspected_cases');
-  const death = drcSeries(data, 'suspected_deaths');
+  const death = drcSeries(data, 'confirmed_deaths');
   const all = [...conf, ...susp, ...death];
   if (all.length === 0) return '';
 
@@ -116,7 +116,7 @@ function evolutionCurveSvg(data: AppData, selectedDate: string): string {
     <div class="evo-legend">
       <span class="evo-key evo-confirmed">confirmes</span>
       <span class="evo-key evo-suspected">suspects</span>
-      <span class="evo-key evo-deaths">deces</span>
+      <span class="evo-key evo-deaths">deces confirmes</span>
     </div>`;
 }
 
@@ -126,12 +126,15 @@ export function renderStoryPanel(container: HTMLElement, data: AppData, event: E
   const source = data.sources.find((item) => item.source_id === event.source_id);
 
   const tally = latestDrcTally(data.zoneCounts, event.date);
-  const deaths = tally ? (tally.suspected_deaths ?? tally.confirmed_deaths) : null;
+  // Toujours distinguer les types : confirmes / suspects pour les cas, et
+  // deces confirmes / deces suspects separement. Ne jamais fondre les deces en
+  // un seul chiffre (sinon on lit de fausses baisses quand le type change).
   const figure = tally
     ? [
-        tally.confirmed_cases != null ? `<strong>${tally.confirmed_cases}</strong> confirmes` : '',
+        tally.confirmed_cases != null ? `<strong>${tally.confirmed_cases}</strong> cas confirmes` : '',
         tally.suspected_cases != null ? `<strong>${tally.suspected_cases}</strong> suspects` : '',
-        deaths != null ? `<strong>${deaths}</strong> deces` : '',
+        tally.confirmed_deaths != null ? `<strong>${tally.confirmed_deaths}</strong> deces confirmes` : '',
+        tally.suspected_deaths != null ? `<strong>${tally.suspected_deaths}</strong> deces suspects` : '',
       ]
         .filter(Boolean)
         .join(' &middot; ')
