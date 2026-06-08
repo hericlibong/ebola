@@ -4,6 +4,22 @@ Ce fichier suit les changements substantiels apportes au jeu de donnees de refer
 
 Il ne remplace pas les sources. Il sert a documenter les ajouts, corrections et points a verifier.
 
+## 2026-06-08
+
+- Integration controlee de chiffres nationaux INRB-UMIE/INSP depuis le snapshot
+  `fd27d5c` du 2026-06-08 (build manifest `979a344`).
+- Source ajoutee : `inrb_umie_2026_06_08_snapshot`.
+- Lignes `counts.csv` remplacees pour `drc_total` du 31 mai au 5 juin, et
+  ligne ajoutee pour le 6 juin.
+- Les valeurs issues du staging remplacent les bilans Africa CDC sur cette
+  plage pour les series nationales, afin de tester INRB-UMIE comme source
+  structuree principale apres validation humaine.
+- Points d'arbitrage : les cas suspects baissent fortement sur plusieurs dates
+  par revision/reclassement; les deces suspects ne sont pas communiques sur
+  plusieurs dates. Ces absences restent des champs vides, pas des zeros.
+- Rappel : deces confirmes et deces suspects restent separes; aucune serie
+  generique « deces » ne doit etre reconstituee.
+
 ## 2026-06-07
 
 - Extension de la chronologie aux **1-5 juin** (rapports quotidiens Africa CDC) :
