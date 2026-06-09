@@ -238,20 +238,24 @@ Critere de reussite :
 
 ## Phase 7 - Impact visualisation
 
-- [ ] Revoir la courbe nationale.
-- [ ] Separer clairement cas confirmes et cas suspects.
-- [ ] Separer clairement deces confirmes et deces suspects.
-- [ ] Eviter tout libelle unique "deces" si deux definitions sont presentes.
-- [ ] Proposer une note ou annotation lors des reclassements de laboratoire.
-- [ ] Verifier si l'interface actuelle suffit.
-- [ ] Identifier la plus petite evolution UI necessaire si l'interface actuelle
+- [x] Revoir la courbe nationale.
+- [x] Separer clairement cas confirmes et cas suspects.
+- [x] Separer clairement deces confirmes et deces suspects.
+- [x] Eviter tout libelle unique "deces" si deux definitions sont presentes.
+- [x] Proposer une note ou annotation lors des reclassements de laboratoire.
+- [x] Verifier si l'interface actuelle suffit.
+- [x] Identifier la plus petite evolution UI necessaire si l'interface actuelle
   entretient l'ambiguite.
+- [x] Afficher les quatre series nationales en courbes distinctes :
+  cas confirmes, cas suspects, deces confirmes, deces suspects.
+- [x] Conserver la derniere mesure connue sur une courbe lorsqu'un indicateur
+  n'est pas publie a une date donnee.
 
 Critere de reussite :
 
-- Le lecteur comprend qu'une baisse des suspects ou une absence de suspects
-  peut venir d'un reclassement, d'une revision ou d'une non-publication, pas
-  d'une baisse mecanique du nombre de morts.
+- Le lecteur voit chaque indicateur separement et comprend, via les notes, qu'une
+  baisse des suspects ou une absence de suspects peut venir d'un reclassement,
+  d'une revision ou d'une non-publication.
 
 ## Evolutions possibles du modele
 

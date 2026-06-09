@@ -18,7 +18,7 @@ app.innerHTML = `
       <h1>Ebola Bundibugyo : les jours ou l'alerte rattrape l'epidemie</h1>
       <p>
         Une lecture cartographique et chronologique, construite a partir du fichier de reference
-        <code>events.csv</code>, du 24 avril au 28 mai 2026.
+        <code>events.csv</code>, du 24 avril au 7 juin 2026.
       </p>
     </header>
     <section class="story-module" aria-label="Storymap Ebola Bundibugyo">

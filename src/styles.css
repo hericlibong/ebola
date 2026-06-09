@@ -382,10 +382,12 @@ blockquote {
 .evo-line.evo-confirmed { stroke: #15745f; stroke-width: 2.2; }
 .evo-line.evo-suspected { stroke: #c8913c; stroke-width: 1.6; }
 .evo-line.evo-deaths { stroke: #b5403a; stroke-width: 1.6; }
+.evo-line.evo-suspected-deaths { stroke: #7f5aa2; stroke-width: 1.5; }
 .evo-dot { stroke: #ffffff; stroke-width: 1; }
 .evo-dot.evo-confirmed { fill: #15745f; }
 .evo-dot.evo-suspected { fill: #c8913c; }
 .evo-dot.evo-deaths { fill: #b5403a; }
+.evo-dot.evo-suspected-deaths { fill: #7f5aa2; }
 .evo-axis { stroke: rgba(32, 36, 42, 0.25); }
 .evo-now { stroke: rgba(32, 36, 42, 0.18); stroke-dasharray: 2 2; }
 .evo-axis-label { fill: #8a8275; font-size: 9px; }
@@ -403,6 +405,7 @@ blockquote {
 .evo-key.evo-confirmed::before { background: #15745f; }
 .evo-key.evo-suspected::before { background: #c8913c; }
 .evo-key.evo-deaths::before { background: #b5403a; }
+.evo-key.evo-suspected-deaths::before { background: #7f5aa2; }
 
 .tally-figure {
   margin: 9px 0 0;

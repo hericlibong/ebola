@@ -28,9 +28,45 @@ INRB-UMIE source externe
   du repo INRB-UMIE.
 - `reports/` : rapports Markdown de comparaison entre staging et
   `public/data/reference/counts.csv`.
+- `.cache/` : clone local ignore par Git, utilise par le script de mise a jour
+  automatique pour recuperer le repo externe.
 - `inrb_umie_place_mapping.csv` : table de travail pour relier les noms
   INRB-UMIE `nom` a nos `place_id`. Cette table ne vaut pas ajout automatique
   dans `places.csv`.
+
+## Mise a jour automatique du staging
+
+Commande standard :
+
+```bash
+npm run update:inrb-umie:staging
+```
+
+Cette commande :
+
+- clone ou met a jour `https://github.com/INRB-UMIE/BDBV2026-Data.git` dans
+  `.cache/` ;
+- lit uniquement les quatre fichiers nationaux prioritaires ;
+- ecrit un snapshot dans `snapshots/` ;
+- ecrit un rapport de comparaison dans `reports/` ;
+- ne modifie jamais `public/data/reference/counts.csv`.
+
+Pour utiliser un clone local deja present :
+
+```bash
+node scripts/update-inrb-umie-staging.mjs --source-dir /chemin/BDBV2026-Data --no-fetch
+```
+
+Pour figer explicitement la date de snapshot :
+
+```bash
+node scripts/update-inrb-umie-staging.mjs --snapshot-date 2026-06-09
+```
+
+Ce script peut etre lance plusieurs fois par jour. Si le commit amont change,
+un nouveau fichier `inrb_umie_YYYY-MM-DD_<commit>_national_counts.csv` et son
+rapport associe sont produits. Si le commit ne change pas, les fichiers du
+meme jour et du meme commit sont remplaces.
 
 ## Modele de staging national
 

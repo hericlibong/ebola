@@ -6,19 +6,34 @@ Il ne remplace pas les sources. Il sert a documenter les ajouts, corrections et 
 
 ## 2026-06-08
 
-- Integration controlee de chiffres nationaux INRB-UMIE/INSP depuis le snapshot
-  `fd27d5c` du 2026-06-08 (build manifest `979a344`).
+- Bascule controlee de la serie nationale RDC vers INRB-UMIE/INSP depuis le
+  snapshot `fd27d5c` du 2026-06-08 (build manifest `979a344`).
 - Source ajoutee : `inrb_umie_2026_06_08_snapshot`.
-- Lignes `counts.csv` remplacees pour `drc_total` du 31 mai au 5 juin, et
-  ligne ajoutee pour le 6 juin.
-- Les valeurs issues du staging remplacent les bilans Africa CDC sur cette
-  plage pour les series nationales, afin de tester INRB-UMIE comme source
-  structuree principale apres validation humaine.
-- Points d'arbitrage : les cas suspects baissent fortement sur plusieurs dates
-  par revision/reclassement; les deces suspects ne sont pas communiques sur
-  plusieurs dates. Ces absences restent des champs vides, pas des zeros.
+- Les anciennes lignes nationales `drc_total` issues de sources multiples
+  (documents locaux, OMS, AP, Jeune Afrique, El Pais, Africa CDC) sont remplacees
+  par une serie nationale unique INRB-UMIE du 14 mai au 6 juin.
+- Les lignes non nationales restent en place : Ouganda et photographie par zones
+  de sante du 20 mai.
+- Points d'arbitrage : la serie INRB-UMIE contient des revisions/reclassements,
+  dont une baisse des cas confirmes le 30 mai et plusieurs baisses de cas
+  suspects. Les notes de `counts.csv` documentent ces ruptures.
+- Les deces suspects ne sont pas communiques sur plusieurs dates. Ces absences
+  restent des champs vides, pas des zeros.
 - Rappel : deces confirmes et deces suspects restent separes; aucune serie
   generique « deces » ne doit etre reconstituee.
+
+## 2026-06-09
+
+- Mise a jour INRB-UMIE via le script de staging automatique.
+- Snapshot amont integre pour le point national du 7 juin :
+  `4735863` (build manifest `6bc4479`, construit le 2026-06-09).
+- Source ajoutee : `inrb_umie_2026_06_09_snapshot`.
+- Ligne `counts.csv` ajoutee pour `drc_total` au 2026-06-07 :
+  550 cas confirmes, 94 cas suspects, 101 deces confirmes, 242 deces suspects
+  reportes avec asterisque sur la plateforme INRB-UMIE.
+- Evenement `ev_20260607_inrb_umie_update` ajoute pour synchroniser la timeline
+  et le panneau narratif avec le dernier bilan national.
+- Borne publique de la storymap portee au 7 juin 2026.
 
 ## 2026-06-07
 

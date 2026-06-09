@@ -62,9 +62,13 @@ const checkNonDecreasing = (rows, field) => {
       const current = toNumber(row[field]);
       if (current === null) continue;
       if (previous && current < previous.value) {
-        errors.push(
+        const message =
           `counts:${row.count_id}: ${field} decreases for ${entityId} from ${previous.value} on ${previous.date} to ${current} on ${row.date}`
-        );
+        if (hasExplanation(row)) {
+          warnings.push(`${message} with an explanatory note`);
+        } else {
+          errors.push(message);
+        }
       }
       previous = { date: row.date, value: current };
     }
@@ -230,8 +234,8 @@ warnSuspectedDeathsGaps(counts);
 warnStrongSuspectedCaseDrops(counts);
 warnNationalZoneMismatches(counts);
 
-if (events.some((row) => row.date > '2026-06-05')) {
-  warnings.push('events contain dates after 2026-06-05');
+if (events.some((row) => row.date > '2026-06-07')) {
+  warnings.push('events contain dates after 2026-06-07');
 }
 
 if (errors.length > 0) {
