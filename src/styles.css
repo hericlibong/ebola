@@ -275,6 +275,12 @@ blockquote {
 .map-place.is-active .place-pin { fill: #15745f; }
 .map-place.is-active .place-name { font-size: 20px; }
 .map-place.is-dimmed { opacity: 0.28; }
+
+/* Devoilement progressif : lieux pas encore atteints par la date active,
+   presents en filigrane (geographie suggeree) et sans etiquette. */
+.map-place.is-future { opacity: 0.16; }
+.map-place.is-future .place-name { display: none; }
+.map-place.is-future .place-pin { fill: #6a6258; }
 .map-place[style*="--phase-color"] .place-pin { fill: var(--phase-color); }
 
 /* C2 — bulles de cas par zone (instantane du 20 mai) */

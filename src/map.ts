@@ -172,6 +172,15 @@ function leadEvent(data: AppData, placeId: string): Event | undefined {
     .sort((a, b) => a.display_priority - b.display_priority)[0];
 }
 
+// Date a laquelle un lieu entre dans la chronologie (son premier evenement).
+// Sert au devoilement progressif : un lieu reste en filigrane tant que la date
+// active n'a pas atteint sa premiere apparition.
+function firstEventDate(data: AppData, placeId: string): string {
+  return data.events
+    .filter((e) => e.place_id === placeId)
+    .reduce((min, e) => (min === '' || e.date < min ? e.date : min), '');
+}
+
 // C2 — cas confirmes par zone de sante. La ventilation par zone n'existe et
 // n'est fiable qu'au 20 mai (point INSP). On l'affiche donc UNIQUEMENT a la date
 // exacte du 20 mai (photographie qui ponctue la timeline), pas apres : les
@@ -259,13 +268,14 @@ export function renderStaticMap(
     const lat = cfg.lat ?? (place.latitude as number);
     const [x, y] = project(lon, lat);
     const isActive = activeEvent.place_id === place.place_id;
+    const reached = firstEventDate(data, place.place_id) <= activeEvent.date;
     const placePhases = new Set(
       data.events.filter((e) => e.place_id === place.place_id).map((e) => e.timeline_group),
     );
     const dimmed = activePhase !== null && !placePhases.has(activePhase);
 
     const group = el('g', {
-      class: `map-place ${isActive ? 'is-active' : ''} ${dimmed ? 'is-dimmed' : ''}`,
+      class: `map-place ${isActive ? 'is-active' : ''} ${dimmed ? 'is-dimmed' : ''} ${reached ? '' : 'is-future'}`,
       transform: `translate(${x.toFixed(1)},${y.toFixed(1)})`,
       role: 'button',
       tabindex: '0',
@@ -273,7 +283,7 @@ export function renderStaticMap(
     if (activePhase !== null && placePhases.has(activePhase)) {
       group.style.setProperty('--phase-color', phaseColor(activePhase));
     }
-    group.appendChild(el('circle', { class: 'place-pin', r: isActive ? 9 : 6 }));
+    group.appendChild(el('circle', { class: 'place-pin', r: isActive ? 9 : reached ? 6 : 4 }));
     const label = el('text', { class: 'place-name', x: cfg.dx, y: cfg.dy, 'text-anchor': cfg.anchor });
     label.textContent = place.name;
     group.appendChild(label);

@@ -64,7 +64,9 @@
 - [ ] 4f. (Optionnel, reporté) Ajouter un linter (Biome ou ESLint+Prettier) pour cadrer le style
 
 ### 4.4 Carte — **à revoir en fonction des résultats**
-- [ ] 4g. *(à arbitrer après 4.2–4.3)* Retravailler la carte : zooms, événements progressifs, données additionnelles sur la carte si nécessaire
+- [x] 4g. **Événements progressifs** : la carte évolue avec la timeline — les lieux pas encore atteints à la date active restent en filigrane (sans étiquette) puis se révèlent à mesure que le récit avance
+- [ ] 4h. *(optionnel, à arbitrer après visualisation)* Zoom / recentrage de la carte sur le lieu actif
+- [ ] 4i. *(optionnel, si besoin)* Données additionnelles sur la carte
 
 ## Phase 5 — Rituel de suivi quotidien
 
