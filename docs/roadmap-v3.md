@@ -68,10 +68,10 @@
 - [ ] 4h. *(optionnel, à arbitrer après visualisation)* Zoom / recentrage de la carte sur le lieu actif
 - [ ] 4i. *(optionnel, si besoin)* Données additionnelles sur la carte
 
-## Phase 5 — Rituel de suivi quotidien
+## Phase 5 — Rituel de suivi quotidien ✅
 
-- [ ] 5a. Définir la procédure quotidienne : interroger la source → mettre à jour chiffres → (le récit relève du protocole d'enrichissement, Phase 6) → ajouter données carto si pertinent
-- [ ] 5b. Documenter ce rituel (procédure courte réutilisable)
+- [x] 5a. Procédure quotidienne définie : staging chiffres → rapport → intégration `counts.csv` → point d'évolution par date → récit (Phase 6) → carto si pertinent → validation + changelog
+- [x] 5b. Documentée dans `docs/daily-ritual.md` (courte, orchestre les outils/docs existants)
 
 ## Phase 6 — Protocole d'enrichissement éditorial (post-V3)
 
