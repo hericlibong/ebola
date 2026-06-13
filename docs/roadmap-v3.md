@@ -59,9 +59,9 @@
 - [ ] 4c. Diagnostiquer le problème de responsivité actuel
 - [ ] 4d. Corriger l'affichage sur petits écrans (carte + timeline + panneau récit)
 
-### 4.3 Design / présentation
-- [ ] 4e. Revoir la présentation générale (mise en page, lisibilité)
-- [ ] 4f. (Optionnel) Ajouter un linter (Biome ou ESLint+Prettier) pour cadrer le style
+### 4.3 Design / présentation ✅
+- [x] 4e. Assainir le CSS : 319 lignes de CSS mort supprimées (héritage MapLibre) + export `statusColor` mort retiré ; bundle CSS 12.5 kB → 8.2 kB
+- [ ] 4f. (Optionnel, reporté) Ajouter un linter (Biome ou ESLint+Prettier) pour cadrer le style
 
 ### 4.4 Carte — **à revoir en fonction des résultats**
 - [ ] 4g. *(à arbitrer après 4.2–4.3)* Retravailler la carte : zooms, événements progressifs, données additionnelles sur la carte si nécessaire
