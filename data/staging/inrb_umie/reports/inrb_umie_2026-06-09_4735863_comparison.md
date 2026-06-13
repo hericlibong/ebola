@@ -13,9 +13,9 @@
 
 - Lignes staging : 84
 - Dates staging : 2026-05-14 -> 2026-06-07 (23 dates distinctes)
-- Dates `counts.csv` pour `drc_total` : 2026-05-14 -> 2026-06-06 (22 dates distinctes)
-- Correspondances exactes champ par champ : 78
-- Ecarts ou absences dans `counts.csv` : 3
+- Dates `counts.csv` pour `drc_total` : 2026-05-14 -> 2026-06-07 (23 dates distinctes)
+- Correspondances exactes champ par champ : 81
+- Ecarts ou absences dans `counts.csv` : 0
 - Valeurs manquantes / `ND` / lignes staging absentes : 11
 - Baisses detectees dans les series staging : 11
 
@@ -30,7 +30,7 @@
 
 ## Dates nouvelles dans le staging
 
-- 2026-06-07
+_Aucune._
 
 ## Dates presentes dans counts.csv mais absentes du staging
 
@@ -38,11 +38,7 @@ _Aucune._
 
 ## Ecarts et valeurs absentes dans counts.csv
 
-| Date | Champ | INRB-UMIE staging | counts.csv | Type |
-| --- | --- | --- | --- | --- |
-| 2026-06-07 | `confirmed_cases` | 550 | missing | value absent from counts.csv |
-| 2026-06-07 | `suspected_cases` | 94 | missing | value absent from counts.csv |
-| 2026-06-07 | `confirmed_deaths` | 101 | missing | value absent from counts.csv |
+_Aucun._
 
 ## Valeurs manquantes ou ND cote staging
 
@@ -58,7 +54,7 @@ _Aucune._
 | 2026-06-04 | `suspected_deaths` | staging missing/ND | missing |
 | 2026-06-05 | `suspected_deaths` | staging missing/ND | missing |
 | 2026-06-06 | `suspected_deaths` | staging missing/ND | missing |
-| 2026-06-07 | `suspected_deaths` | staging missing/ND | missing |
+| 2026-06-07 | `suspected_deaths` | staging missing/ND | 242 |
 
 ## Baisses de cumul detectees dans le staging
 
