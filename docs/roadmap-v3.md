@@ -37,18 +37,18 @@
 - [x] 2d. Avertir si une ligne `health_zone` existe hors du 20 mai (`HEALTH_ZONE_REFERENCE_DATE`)
 - [x] 2e. Vérifier que la validation passe (warnings attendus documentés)
 
-## Phase 3 — Réactualisation des données (8 juin → aujourd'hui)
+## Phase 3 — Réactualisation des données (8 → 11 juin) ✅
 
-> Source : `INRB-UMIE/BDBV2026-Data`. Dernier point intégré : 2026-06-07.
-> Flux obligatoire : staging → rapport de comparaison → validation humaine → `counts.csv`.
+> Source : `INRB-UMIE/BDBV2026-Data`. Snapshot `6f156b6` (build du 12 juin). L'amont s'arrête au 11 juin.
+> Flux respecté : staging → rapport de comparaison → validation humaine → `counts.csv`.
 
-- [ ] 3a. Lancer `npm run update:inrb-umie:staging` (récupère le commit upstream le plus récent)
-- [ ] 3b. Lire le rapport de comparaison généré (`data/staging/inrb_umie/reports/`)
-- [ ] 3c. Intégrer éditorialement les nouvelles dates dans `counts.csv` (drc_total, en respectant les 4 séries et `ND` ≠ `0`)
-- [ ] 3d. Ajouter les sources correspondantes dans `sources.csv`
-- [ ] 3e. Ajouter les événements narratifs du 8 juin à aujourd'hui dans `events.csv` (« histoire à raconter » alignée sur les chiffres)
-- [ ] 3f. Mettre à jour `data-changelog.md`
-- [ ] 3g. Valider (`npm run validate:reference`)
+- [x] 3a. Lancer `npm run update:inrb-umie:staging` (snapshot `6f156b6`)
+- [x] 3b. Lire le rapport de comparaison généré (`data/staging/inrb_umie/reports/`)
+- [x] 3c. Intégrer dans `counts.csv` les bilans `drc_total` du 8 au 11 juin (4 séries, `ND` → champ vide)
+- [x] 3d. Ajouter la source `inrb_umie_2026_06_13_snapshot` dans `sources.csv`
+- [~] 3e. Événement de synchronisation `ev_20260611_inrb_umie_update` ajouté ; **récit narratif des jours 8-11 reste à sourcer** (la source INRB-UMIE ne fournit que les chiffres)
+- [x] 3f. Mettre à jour `data-changelog.md`
+- [x] 3g. Valider (`npm run validate:reference`) + build OK
 
 ## Phase 4 — Évolution fonctionnelle (Option D)
 

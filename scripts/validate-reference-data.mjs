@@ -250,7 +250,7 @@ warnNationalZoneMismatches(seriesCounts);
 // Date de gel editorial de la couverture actuelle. Au-dela, un evenement
 // signale simplement que la couverture a ete etendue et merite une relecture
 // de coherence (chiffres, sources, recit). A relever quand la couverture avance.
-const EDITORIAL_COVERAGE_END = '2026-06-07';
+const EDITORIAL_COVERAGE_END = '2026-06-11';
 if (events.some((row) => row.date > EDITORIAL_COVERAGE_END)) {
   warnings.push(`events contain dates after ${EDITORIAL_COVERAGE_END}`);
 }
