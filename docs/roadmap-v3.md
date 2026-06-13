@@ -12,10 +12,10 @@
 
 ---
 
-## Phase 0 — Mise en place git
+## Phase 0 — Mise en place git ✅
 
-- [ ] Merger `feature/inrb-umie-data-source` dans `main` (établir une base propre : CLAUDE.md, audit, roadmap)
-- [ ] Créer une branche de travail dédiée pour les nouveaux développements (ex. `feature/v3-reorg`)
+- [x] Merger `feature/inrb-umie-data-source` dans `main` (établir une base propre : CLAUDE.md, audit, roadmap)
+- [x] Créer une branche de travail dédiée pour les nouveaux développements (`feature/v3-reorg`)
 
 ## Phase 1 — Nettoyage (sans risque fonctionnel)
 
