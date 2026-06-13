@@ -52,9 +52,8 @@
 
 ## Phase 4 — Évolution fonctionnelle (Option D)
 
-### 4.1 Textes (priorité)
-- [ ] 4a. Revoir et enrichir les textes existants de l'app (headlines, `fact_text`, citations) — actuellement basiques et désordonnés. Textes réels, à approfondir, pas fictifs.
-- [ ] 4b. Clarifier l'organisation/hiérarchie éditoriale des événements (tiers, priorités, regroupement)
+### 4.1 Textes — **déplacé vers le protocole d'enrichissement (Phase 6, post-V3)**
+- [→] 4a/4b. L'enrichissement éditorial des textes ne se fait **pas** ici : il fait l'objet d'un protocole dédié en 2 phases, à exécuter **une fois toute la roadmap V3 terminée**. Voir Phase 6 et `docs/enrichment-protocol.md`. Décision actée : **affichage en français accentué**.
 
 ### 4.2 Responsivité
 - [ ] 4c. Diagnostiquer le problème de responsivité actuel
@@ -65,12 +64,26 @@
 - [ ] 4f. (Optionnel) Ajouter un linter (Biome ou ESLint+Prettier) pour cadrer le style
 
 ### 4.4 Carte — **à revoir en fonction des résultats**
-- [ ] 4g. *(à arbitrer après 4.1–4.3)* Retravailler la carte : zooms, événements progressifs, données additionnelles sur la carte si nécessaire
+- [ ] 4g. *(à arbitrer après 4.2–4.3)* Retravailler la carte : zooms, événements progressifs, données additionnelles sur la carte si nécessaire
 
 ## Phase 5 — Rituel de suivi quotidien
 
-- [ ] 5a. Définir la procédure quotidienne : interroger la source → repérer la nouvelle histoire → mettre à jour chiffres + récit → ajouter données carto si pertinent
+- [ ] 5a. Définir la procédure quotidienne : interroger la source → mettre à jour chiffres → (le récit relève du protocole d'enrichissement, Phase 6) → ajouter données carto si pertinent
 - [ ] 5b. Documenter ce rituel (procédure courte réutilisable)
+
+## Phase 6 — Protocole d'enrichissement éditorial (post-V3)
+
+> À entamer **une fois toutes les phases V3 (0–5) terminées**. Spécifié dans `docs/enrichment-protocol.md`.
+> Décision actée : textes affichés en **français accentué**. Aucun fait inventé : enrichissement sourcé.
+
+### 6.1 — Phase A : enrichissement rétroactif (backfill)
+- [ ] 6a. Pour chaque date du jeu de données (24 avril → 11 juin), jour par jour : rechercher les faits sourcés et enrichir le texte de l'événement
+- [ ] 6b. Accentuer les textes affichés ; ajouter les sources ; tracer dans `data-changelog.md`
+
+### 6.2 — Phase B : enrichissement en continu (synchronisé avec la réactualisation)
+- [ ] 6c. À chaque réactualisation, pour la nouvelle date : lancer une recherche d'événements et sélectionner l'histoire la plus pertinente
+- [ ] 6d. Générer/enrichir le texte au moment de l'actualisation (probablement via un **agent de recherche dédié**)
+- [ ] 6e. Garde-fous : chiffres = INRB-UMIE ; récit = sources éditoriales ; jamais d'invention
 
 ---
 
