@@ -1,6 +1,6 @@
 import './styles.css';
 import { loadData } from './data';
-import { initStaticMap, renderStaticMap } from './staticMap';
+import { initStaticMap, renderStaticMap } from './map';
 import { renderStoryPanel } from './story';
 import { renderTimeline } from './timeline';
 import type { Event } from './types';

@@ -17,17 +17,17 @@
 - [x] Merger `feature/inrb-umie-data-source` dans `main` (établir une base propre : CLAUDE.md, audit, roadmap)
 - [x] Créer une branche de travail dédiée pour les nouveaux développements (`feature/v3-reorg`)
 
-## Phase 1 — Nettoyage (sans risque fonctionnel)
+## Phase 1 — Nettoyage (sans risque fonctionnel) ✅
 
-- [ ] 1a. Supprimer `src/map.ts` (fichier mort, MapLibre non utilisé)
-- [ ] 1b. Désinstaller `maplibre-gl` (`npm uninstall maplibre-gl`)
-- [ ] 1c. Renommer `src/staticMap.ts` → `src/map.ts` (c'est *la* carte de l'app) + ajuster l'import dans `main.ts`
-- [ ] 1d. Reclasser `d3-dsv` en `devDependencies`
-- [ ] 1e. Corriger `public/data/reference/README.md` : « jusqu'au 28 mai » → date réelle
-- [ ] 1f. Documenter la borne `2026-06-07` dans `validate-reference-data.mjs` (commentaire + nom de constante)
-- [ ] 1g. Supprimer les dossiers vides `.agents/` et `.codex/`
-- [ ] 1h. Exclure les PDFs et `deep-research-report-ebola.md` du tracking git (`.gitignore` + `git rm --cached`)
-- [ ] 1i. Vérifier que `npm run build` passe toujours
+- [x] 1a. Supprimer `src/map.ts` (fichier mort, MapLibre non utilisé)
+- [x] 1b. Désinstaller `maplibre-gl` (`npm uninstall maplibre-gl`)
+- [x] 1c. Renommer `src/staticMap.ts` → `src/map.ts` (c'est *la* carte de l'app) + ajuster l'import dans `main.ts`
+- [x] 1d. Reclasser `d3-dsv` en `devDependencies`
+- [x] 1e. Corriger `public/data/reference/README.md` : « jusqu'au 28 mai » → date réelle
+- [x] 1f. Documenter la borne `2026-06-07` dans `validate-reference-data.mjs` (commentaire + nom de constante)
+- [x] 1g. Supprimer les dossiers vides `.agents/` et `.codex/`
+- [~] 1h. ~~Exclure les PDFs du tracking git~~ — **abandonné** : non bloquant, fichiers conservés tels quels (décision utilisateur)
+- [x] 1i. Vérifier que `npm run build` passe toujours (bundle identique, 27.47 kB)
 
 ## Phase 2 — Renforcement du validateur
 

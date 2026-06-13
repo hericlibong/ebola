@@ -234,8 +234,12 @@ warnSuspectedDeathsGaps(counts);
 warnStrongSuspectedCaseDrops(counts);
 warnNationalZoneMismatches(counts);
 
-if (events.some((row) => row.date > '2026-06-07')) {
-  warnings.push('events contain dates after 2026-06-07');
+// Date de gel editorial de la couverture actuelle. Au-dela, un evenement
+// signale simplement que la couverture a ete etendue et merite une relecture
+// de coherence (chiffres, sources, recit). A relever quand la couverture avance.
+const EDITORIAL_COVERAGE_END = '2026-06-07';
+if (events.some((row) => row.date > EDITORIAL_COVERAGE_END)) {
+  warnings.push(`events contain dates after ${EDITORIAL_COVERAGE_END}`);
 }
 
 if (errors.length > 0) {
