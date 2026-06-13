@@ -540,3 +540,46 @@ blockquote {
     padding: 22px 20px;
   }
 }
+
+/* Palier telephone : la rangee est deja empilee (< 900px) ; ici on resserre
+   pour eviter le chevauchement des annotations de timeline et l'encombrement
+   de l'encart carte sur les petites largeurs. */
+@media (max-width: 600px) {
+  .article-shell {
+    width: calc(100% - 16px);
+    padding: 18px 0 36px;
+  }
+
+  .article-intro {
+    margin-bottom: 16px;
+  }
+
+  #story {
+    padding: 18px 16px;
+  }
+
+  .timeline-axis {
+    padding: 10px 12px 4px;
+  }
+
+  .axis-annot-text {
+    width: 104px;
+    font-size: 0.62rem;
+  }
+
+  .axis-tick-label,
+  .axis-annot-date {
+    font-size: 0.6rem;
+  }
+
+  .timeline-legend {
+    padding: 4px 12px 12px;
+  }
+
+  /* Encart de localisation plus discret sur petit ecran. */
+  .map-inset {
+    width: 96px;
+    left: 8px;
+    bottom: 8px;
+  }
+}

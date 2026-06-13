@@ -55,9 +55,9 @@
 ### 4.1 Textes — **déplacé vers le protocole d'enrichissement (Phase 6, post-V3)**
 - [→] 4a/4b. L'enrichissement éditorial des textes ne se fait **pas** ici : il fait l'objet d'un protocole dédié en 2 phases, à exécuter **une fois toute la roadmap V3 terminée**. Voir Phase 6 et `docs/enrichment-protocol.md`. Décision actée : **affichage en français accentué**.
 
-### 4.2 Responsivité
-- [ ] 4c. Diagnostiquer le problème de responsivité actuel
-- [ ] 4d. Corriger l'affichage sur petits écrans (carte + timeline + panneau récit)
+### 4.2 Responsivité ✅
+- [x] 4c. Diagnostic : un seul breakpoint (900px) ; en dessous, annotations timeline (144px) qui débordent et encart carte (138px) trop grand
+- [x] 4d. Ajout d'un palier téléphone (600px) : annotations resserrées (104px + police réduite), encart carte à 96px, paddings intro/récit/timeline réduits *(à confirmer visuellement sur petit écran)*
 
 ### 4.3 Design / présentation ✅
 - [x] 4e. Assainir le CSS : 319 lignes de CSS mort supprimées (héritage MapLibre) + export `statusColor` mort retiré ; bundle CSS 12.5 kB → 8.2 kB
