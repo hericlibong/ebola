@@ -46,7 +46,7 @@
 - [x] 3b. Lire le rapport de comparaison généré (`data/staging/inrb_umie/reports/`)
 - [x] 3c. Intégrer dans `counts.csv` les bilans `drc_total` du 8 au 11 juin (4 séries, `ND` → champ vide)
 - [x] 3d. Ajouter la source `inrb_umie_2026_06_13_snapshot` dans `sources.csv`
-- [~] 3e. Événement de synchronisation `ev_20260611_inrb_umie_update` ajouté ; **récit narratif des jours 8-11 reste à sourcer** (la source INRB-UMIE ne fournit que les chiffres)
+- [x] 3e. Un point de situation par date (8, 9, 10, 11 juin) pour une évolution quotidienne sur la timeline, calé sur les chiffres INRB-UMIE ; **récit de terrain des jours 8-11 reste à sourcer** (la source ne fournit que les chiffres)
 - [x] 3f. Mettre à jour `data-changelog.md`
 - [x] 3g. Valider (`npm run validate:reference`) + build OK
 

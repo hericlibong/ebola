@@ -18,8 +18,10 @@ Il ne remplace pas les sources. Il sert a documenter les ajouts, corrections et 
   7 juin) a 64 le 11 juin. Forte baisse documentee comme revision / reclassement
   ou changement de definition cote source ; les jours intermediaires restent ND
   (champs vides, pas des zeros).
-- Evenement `ev_20260611_inrb_umie_update` ajoute pour synchroniser la timeline
-  et le panneau narratif avec le dernier bilan national.
+- Un point de situation par date (`ev_2026060[8-9]`, `ev_2026061[0-1]_inrb_umie_update`)
+  pour que la timeline progresse jour par jour et ne saute pas du 7 au 11 juin.
+  Ces points restent cales sur la seule source chiffree INRB-UMIE (pas de recit
+  de terrain, qui demanderait des sources editoriales separees).
 - L'amont s'arrete au 11 juin (pas de bilan 12-13 juin dans ce snapshot).
 - Borne de couverture editoriale (`EDITORIAL_COVERAGE_END`) portee au 11 juin 2026.
 - **Reste a faire (recit)** : les chiffres 8-11 juin sont integres, mais les
