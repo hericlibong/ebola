@@ -3,6 +3,10 @@ import { csvParse } from 'd3-dsv';
 
 const DATA_DIR = new URL('../public/data/reference/', import.meta.url);
 
+// Seul point de ventilation par zone de sante considere comme fiable (point INSP).
+// Toute ligne health_zone a une autre date est signalee pour relecture.
+const HEALTH_ZONE_REFERENCE_DATE = '2026-05-20';
+
 const errors = [];
 const warnings = [];
 
@@ -207,11 +211,16 @@ for (const row of counts) {
   required(row, 'date', context);
   required(row, 'entity_id', context);
   required(row, 'source_id', context);
+  required(row, 'entity_type', context);
   if (!isoDate(row.date)) errors.push(`${context}: invalid date`);
   if (!placeIds.has(row.entity_id)) errors.push(`${context}: unknown entity_id ${row.entity_id}`);
   if (!sourceIds.has(row.source_id)) errors.push(`${context}: unknown source_id ${row.source_id}`);
+  if (!hasLabel('entity_type', row.entity_type)) errors.push(`${context}: invalid entity_type ${row.entity_type}`);
   if (!hasLabel('confidence', row.confidence)) errors.push(`${context}: invalid confidence ${row.confidence}`);
   if (!hasLabel('data_status', row.data_status)) errors.push(`${context}: invalid data_status ${row.data_status}`);
+  if (row.entity_type === 'health_zone' && row.date !== HEALTH_ZONE_REFERENCE_DATE) {
+    warnings.push(`${context}: health_zone breakdown on ${row.date}; only ${HEALTH_ZONE_REFERENCE_DATE} (INSP) is treated as reliable`);
+  }
   ['confirmed_cases', 'suspected_cases', 'confirmed_deaths', 'suspected_deaths', 'contacts'].forEach((field) => {
     if (!numberOk(row[field])) errors.push(`${context}: invalid number ${field}`);
   });
@@ -228,11 +237,15 @@ for (const row of counts) {
   countKeys.add(key);
 }
 
-checkNonDecreasing(counts, 'confirmed_cases');
-checkNonDecreasing(counts, 'confirmed_deaths');
-warnSuspectedDeathsGaps(counts);
-warnStrongSuspectedCaseDrops(counts);
-warnNationalZoneMismatches(counts);
+// Les lignes disputed ne font pas partie des series validees : on les ecarte
+// des controles de monotonie et de coherence pour eviter les faux positifs.
+const seriesCounts = counts.filter((row) => row.data_status !== 'disputed');
+checkNonDecreasing(seriesCounts, 'confirmed_cases');
+checkNonDecreasing(seriesCounts, 'confirmed_deaths');
+checkNonDecreasing(seriesCounts, 'suspected_deaths');
+warnSuspectedDeathsGaps(seriesCounts);
+warnStrongSuspectedCaseDrops(seriesCounts);
+warnNationalZoneMismatches(seriesCounts);
 
 // Date de gel editorial de la couverture actuelle. Au-dela, un evenement
 // signale simplement que la couverture a ete etendue et merite une relecture

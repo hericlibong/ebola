@@ -29,13 +29,13 @@
 - [~] 1h. ~~Exclure les PDFs du tracking git~~ — **abandonné** : non bloquant, fichiers conservés tels quels (décision utilisateur)
 - [x] 1i. Vérifier que `npm run build` passe toujours (bundle identique, 27.47 kB)
 
-## Phase 2 — Renforcement du validateur
+## Phase 2 — Renforcement du validateur ✅
 
-- [ ] 2a. Ajouter `checkNonDecreasing(counts, 'suspected_deaths')` (monotonie de la 4e série)
-- [ ] 2b. Exclure les lignes `data_status = disputed` de tous les checks de monotonie
-- [ ] 2c. Ajouter un groupe `entity_type` dans `labels.csv` + valider `counts.entity_type` contre ce vocabulaire
-- [ ] 2d. Avertir si une ligne `health_zone` existe hors du 20 mai
-- [ ] 2e. Vérifier que la validation passe (warnings attendus documentés)
+- [x] 2a. Ajouter `checkNonDecreasing(counts, 'suspected_deaths')` (monotonie de la 4e série) — capte la baisse du 27 mai
+- [x] 2b. Exclure les lignes `data_status = disputed` de tous les checks de monotonie (`seriesCounts`)
+- [x] 2c. Ajouter un groupe `entity_type` dans `labels.csv` + valider `counts.entity_type` contre ce vocabulaire
+- [x] 2d. Avertir si une ligne `health_zone` existe hors du 20 mai (`HEALTH_ZONE_REFERENCE_DATE`)
+- [x] 2e. Vérifier que la validation passe (warnings attendus documentés)
 
 ## Phase 3 — Réactualisation des données (8 juin → aujourd'hui)
 
