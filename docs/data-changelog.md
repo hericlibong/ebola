@@ -4,6 +4,18 @@ Ce fichier suit les changements substantiels apportes au jeu de donnees de refer
 
 Il ne remplace pas les sources. Il sert a documenter les ajouts, corrections et points a verifier.
 
+## 2026-06-15
+
+- Debut du protocole d'enrichissement editorial (Phase A, jour par jour), avec
+  recherche web par evenement et affichage en francais accentue.
+- Source ajoutee : `who_don602_2026_05_16` (OMS Disease Outbreak News, 16 mai 2026).
+- Evenements enrichis et resources sur l'OMS DON602 :
+  - 24 avril (`ev_20260424_bunia_first_known`) : detail clinique + retard de detection de ~4 semaines.
+  - 5 mai (`ev_20260505_mongbwalu_alert`) : alerte precisee (quatre soignants morts en quatre jours).
+- Evenement cree : `ev_20260501_care_seeking` (1er mai), **reconstruction** de la
+  migration de soins Mongbwalu -> Rwampara/Bunia. Date approximative : aucune source
+  ne date precisement ces deplacements (periode de circulation silencieuse).
+
 ## 2026-06-13
 
 - Reactualisation INRB-UMIE via le script de staging automatique.
