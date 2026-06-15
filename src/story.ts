@@ -55,12 +55,17 @@ type DrcField = 'confirmed_cases' | 'suspected_cases' | 'confirmed_deaths' | 'su
 
 function drcSeries(data: AppData, field: DrcField): { day: number; value: number }[] {
   const byDate = new Map<string, number>();
+  let lastValue: number | null = null;
   data.zoneCounts
-    .filter((c) => c.entity_id === 'drc_total' && c.data_status !== 'disputed' && c[field] != null)
+    .filter((c) => c.entity_id === 'drc_total' && c.data_status !== 'disputed')
+    .sort((a, b) => a.date.localeCompare(b.date))
     .forEach((c) => {
-      const v = c[field] as number;
-      const prev = byDate.get(c.date);
-      byDate.set(c.date, prev == null ? v : Math.max(prev, v));
+      if (c[field] != null) {
+        lastValue = c[field];
+      }
+      if (lastValue != null) {
+        byDate.set(c.date, lastValue);
+      }
     });
   return [...byDate.entries()]
     .map(([date, value]) => ({ day: toDay(date), value }))
@@ -68,10 +73,11 @@ function drcSeries(data: AppData, field: DrcField): { day: number; value: number
 }
 
 function evolutionCurveSvg(data: AppData, selectedDate: string): string {
-  const conf = drcSeries(data, 'confirmed_cases');
-  const susp = drcSeries(data, 'suspected_cases');
-  const death = drcSeries(data, 'confirmed_deaths');
-  const all = [...conf, ...susp, ...death];
+  const confirmedCases = drcSeries(data, 'confirmed_cases');
+  const suspectedCases = drcSeries(data, 'suspected_cases');
+  const confirmedDeaths = drcSeries(data, 'confirmed_deaths');
+  const suspectedDeaths = drcSeries(data, 'suspected_deaths');
+  const all = [...confirmedCases, ...suspectedCases, ...confirmedDeaths, ...suspectedDeaths];
   if (all.length === 0) return '';
 
   const minDay = Math.min(...all.map((p) => p.day));
@@ -103,20 +109,22 @@ function evolutionCurveSvg(data: AppData, selectedDate: string): string {
   const maxIso = new Date(maxDay * 86_400_000).toISOString().slice(0, 10);
 
   return `
-    <svg class="evo-curve" viewBox="0 0 ${W} ${H}" role="img" aria-label="Evolution des cas en RDC">
+    <svg class="evo-curve" viewBox="0 0 ${W} ${H}" role="img" aria-label="Evolution des cas et deces confirmes et suspects en RDC">
       <line class="evo-axis" x1="${padL}" y1="${baseY}" x2="${W - padR}" y2="${baseY}" />
       <line class="evo-now" x1="${selX}" y1="${padT}" x2="${selX}" y2="${baseY}" />
-      ${line(susp, 'evo-suspected')}
-      ${line(death, 'evo-deaths')}
-      ${line(conf, 'evo-confirmed')}
+      ${line(suspectedCases, 'evo-suspected')}
+      ${line(confirmedCases, 'evo-confirmed')}
+      ${line(suspectedDeaths, 'evo-suspected-deaths')}
+      ${line(confirmedDeaths, 'evo-deaths')}
       <text class="evo-axis-label" x="${padL}" y="${padT + 7}">${yMax}</text>
       <text class="evo-axis-label" x="${padL}" y="${H - 7}">${escapeHtml(shortDateFr(minIso))}</text>
       <text class="evo-axis-label" x="${W - padR}" y="${H - 7}" text-anchor="end">${escapeHtml(shortDateFr(maxIso))}</text>
     </svg>
     <div class="evo-legend">
-      <span class="evo-key evo-confirmed">confirmes</span>
-      <span class="evo-key evo-suspected">suspects</span>
+      <span class="evo-key evo-confirmed">cas confirmes</span>
+      <span class="evo-key evo-suspected">cas suspects</span>
       <span class="evo-key evo-deaths">deces confirmes</span>
+      <span class="evo-key evo-suspected-deaths">deces suspects</span>
     </div>`;
 }
 
@@ -152,11 +160,11 @@ export function renderStoryPanel(container: HTMLElement, data: AppData, event: E
   const tallyHtml = tally
     ? `
         <div class="tally">
-          <p class="tally-label">Evolution des cas en RDC</p>
+          <p class="tally-label">Evolution nationale RDC</p>
           ${evolutionCurveSvg(data, event.date)}
           <p class="tally-figure">Au ${escapeHtml(tally.date)} : ${figure}</p>
           ${breakdownHtml}
-          <p class="tally-note">Donnees provisoires ; les cas suspects fluctuent avec les reclassements de laboratoire.</p>
+          <p class="tally-note">Si un chiffre n'est pas publie a une date, la courbe conserve la derniere mesure connue. Les revisions et changements de perimetre restent notes dans les donnees.</p>
         </div>`
     : '';
 

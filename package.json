@@ -7,18 +7,18 @@
     "dev": "vite",
     "build": "npm run validate:reference && tsc && vite build",
     "validate:reference": "node scripts/validate-reference-data.mjs",
+    "update:inrb-umie:staging": "node scripts/update-inrb-umie-staging.mjs",
     "build:geodata": "node scripts/build-geodata.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
-    "d3-dsv": "^3.0.1",
     "d3-fetch": "^3.0.1",
-    "d3-geo": "^3.1.1",
-    "maplibre-gl": "^5.9.0"
+    "d3-geo": "^3.1.1"
   },
   "devDependencies": {
     "@types/d3-fetch": "^3.0.7",
     "@types/d3-geo": "^3.1.0",
+    "d3-dsv": "^3.0.1",
     "typescript": "^5.9.3",
     "vite": "^7.2.4"
   }

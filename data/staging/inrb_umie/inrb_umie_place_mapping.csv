@@ -1,0 +1,34 @@
+upstream_nom,place_id,mapping_status,place_type,editorial_use,notes
+Aru,aru,mapped_existing,border_town,storymap_context,Existe deja dans places.csv; point frontalier ou regional potentiel.
+Aungba,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; a evaluer avant ajout editorial.
+Bambu,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; a evaluer avant ajout editorial.
+Beni,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; mention possible Nord-Kivu mais pas encore utile au recit.
+Bunia,bunia,mapped_existing,city,storymap_core,Existe deja comme ville; verifier si les donnees INRB-UMIE visent la zone de sante Bunia plutot que la ville.
+Butembo,butembo,mapped_existing,city,storymap_context,Existe deja comme ville; verifier si les donnees INRB-UMIE visent la zone de sante Butembo.
+Damas,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; a evaluer avant ajout editorial.
+Fataki,fataki,mapped_existing,locality,storymap_context,Existe deja comme localite; verifier si les donnees INRB-UMIE visent la zone de sante Fataki.
+Gethy,,alias_candidate,health_zone,staging_only,Probable variante de Gety; a consolider avant tout ajout dans places.csv.
+Gety,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; pourrait devenir place_id gety si utile au recit.
+Goma,goma,mapped_existing,city,storymap_context,Existe deja comme ville; verifier si les donnees INRB-UMIE visent la zone de sante Goma.
+Jiba,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; a evaluer avant ajout editorial.
+Kalunguta,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; a evaluer avant ajout editorial.
+Karisimbi,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; proche de Goma mais a garder separee si integree.
+Katwa,katwa,mapped_existing,commune,storymap_context,Existe deja; verifier si les donnees INRB-UMIE visent la zone de sante Katwa plutot que la commune.
+Kilo,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; a evaluer avant ajout editorial.
+Komanda,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; a evaluer avant ajout editorial.
+Kyondo,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; a evaluer avant ajout editorial.
+Lita,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; a evaluer avant ajout editorial.
+Logo,,new_candidate,health_zone,storymap_candidate,Zone citee dans le recit du 1 juin; candidate forte pour ajout futur dans places.csv.
+Mambasa,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; a evaluer avant ajout editorial.
+Mangala,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; a evaluer avant ajout editorial.
+Manguredjipa,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; a evaluer avant ajout editorial.
+Miti-Murhesa,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; Sud-Kivu; a evaluer avant ajout editorial.
+Mongbalu,mongbwalu,alias_existing,health_zone,storymap_core,Alias INRB-UMIE pour Mongbwalu; conserver le place_id existant pour la storymap.
+Mongbwalu,mongbwalu,mapped_existing,mining_town,storymap_core,Existe deja; foyer communautaire et funeraire precoce.
+NA,,not_mappable,unknown,exclude,Libelle non cartographique ou non zone; ne pas importer dans places.csv.
+Nizi,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; a evaluer avant ajout editorial.
+Nyakunde,nyankunde,alias_existing,health_zone,storymap_core,Alias INRB-UMIE pour Nyankunde; conserver le place_id existant nyankunde.
+Nyankunde,nyankunde,mapped_existing,health_zone_proxy,storymap_core,Existe deja comme proxy; precision faible a conserver en note.
+Oicha,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; a evaluer avant ajout editorial.
+Rimba,,new_candidate,health_zone,staging_only,Zone INRB-UMIE absente de places.csv; a evaluer avant ajout editorial.
+Rwampara,rwampara,mapped_existing,health_zone_proxy,storymap_core,Existe deja comme proxy; a remplacer un jour par geographie officielle.

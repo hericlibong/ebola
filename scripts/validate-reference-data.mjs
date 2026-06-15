@@ -3,6 +3,10 @@ import { csvParse } from 'd3-dsv';
 
 const DATA_DIR = new URL('../public/data/reference/', import.meta.url);
 
+// Seul point de ventilation par zone de sante considere comme fiable (point INSP).
+// Toute ligne health_zone a une autre date est signalee pour relecture.
+const HEALTH_ZONE_REFERENCE_DATE = '2026-05-20';
+
 const errors = [];
 const warnings = [];
 
@@ -10,6 +14,8 @@ const readCsv = async (name) => csvParse(await readFile(new URL(name, DATA_DIR),
 const split = (value) => (value ? value.split('|').filter(Boolean) : []);
 const isoDate = (value) => /^\d{4}-\d{2}-\d{2}$/.test(value);
 const numberOk = (value) => value === '' || value === undefined || Number.isFinite(Number(value));
+const isPresent = (value) => value !== '' && value !== undefined;
+const toNumber = (value) => (isPresent(value) ? Number(value) : null);
 
 const [labels, places, sources, events, flows, counts] = await Promise.all([
   readCsv('labels.csv'),
@@ -32,6 +38,109 @@ const sourceIds = new Set(sources.map((row) => row.source_id));
 
 const required = (row, field, context) => {
   if (!row[field]) errors.push(`${context}: missing ${field}`);
+};
+
+const genericDeathColumns = (columns) =>
+  columns.filter((column) => /^(deaths?|deces)$/i.test(column));
+
+const hasExplanation = (row) =>
+  /reclass|revision|corrig|ajust|definition|diverg|contradic|ordre de grandeur|non communique/i.test(row.notes || '');
+
+const rowsByEntity = (rows) => {
+  const byEntity = new Map();
+  for (const row of rows) {
+    if (!byEntity.has(row.entity_id)) byEntity.set(row.entity_id, []);
+    byEntity.get(row.entity_id).push(row);
+  }
+  for (const entityRows of byEntity.values()) {
+    entityRows.sort((a, b) => a.date.localeCompare(b.date));
+  }
+  return byEntity;
+};
+
+const checkNonDecreasing = (rows, field) => {
+  const byEntity = rowsByEntity(rows);
+  for (const [entityId, entityRows] of byEntity) {
+    let previous = null;
+    for (const row of entityRows) {
+      const current = toNumber(row[field]);
+      if (current === null) continue;
+      if (previous && current < previous.value) {
+        const message =
+          `counts:${row.count_id}: ${field} decreases for ${entityId} from ${previous.value} on ${previous.date} to ${current} on ${row.date}`
+        if (hasExplanation(row)) {
+          warnings.push(`${message} with an explanatory note`);
+        } else {
+          errors.push(message);
+        }
+      }
+      previous = { date: row.date, value: current };
+    }
+  }
+};
+
+const warnSuspectedDeathsGaps = (rows) => {
+  const byEntity = rowsByEntity(rows);
+  for (const [entityId, entityRows] of byEntity) {
+    for (let i = 1; i < entityRows.length - 1; i += 1) {
+      const row = entityRows[i];
+      if (isPresent(row.suspected_deaths)) continue;
+      const hadBefore = entityRows.slice(0, i).some((previous) => isPresent(previous.suspected_deaths));
+      const hasAfter = entityRows.slice(i + 1).some((next) => isPresent(next.suspected_deaths));
+      if (hadBefore && hasAfter) {
+        warnings.push(`counts:${row.count_id}: suspected_deaths missing for ${entityId} on ${row.date}, but present before and after`);
+      }
+    }
+  }
+};
+
+const warnStrongSuspectedCaseDrops = (rows) => {
+  const byEntity = rowsByEntity(rows);
+  for (const [entityId, entityRows] of byEntity) {
+    let previous = null;
+    for (const row of entityRows) {
+      const current = toNumber(row.suspected_cases);
+      if (current === null) continue;
+      if (previous) {
+        const drop = previous.value - current;
+        const strongDrop = drop >= 50 || (previous.value > 0 && drop / previous.value >= 0.2);
+        if (strongDrop && !hasExplanation(row)) {
+          warnings.push(
+            `counts:${row.count_id}: suspected_cases drops for ${entityId} from ${previous.value} on ${previous.date} to ${current} on ${row.date} without an explanatory note`
+          );
+        }
+      }
+      previous = { date: row.date, value: current };
+    }
+  }
+};
+
+const warnNationalZoneMismatches = (rows) => {
+  const fields = ['confirmed_cases', 'suspected_cases', 'confirmed_deaths', 'suspected_deaths'];
+  const byDate = new Map();
+  for (const row of rows) {
+    if (!byDate.has(row.date)) byDate.set(row.date, []);
+    byDate.get(row.date).push(row);
+  }
+  for (const [date, dateRows] of byDate) {
+    const nationalRows = dateRows.filter((row) => row.entity_type === 'country_total');
+    const zoneRows = dateRows.filter((row) => row.entity_type === 'health_zone');
+    if (nationalRows.length === 0 || zoneRows.length === 0) continue;
+    for (const nationalRow of nationalRows) {
+      for (const field of fields) {
+        const nationalValue = toNumber(nationalRow[field]);
+        if (nationalValue === null) continue;
+        const zoneValues = zoneRows.map((row) => toNumber(row[field])).filter((value) => value !== null);
+        if (zoneValues.length === 0) continue;
+        const zoneSum = zoneValues.reduce((sum, value) => sum + value, 0);
+        if (zoneSum !== nationalValue) {
+          warnings.push(
+            `counts:${nationalRow.count_id}: ${field} national value ${nationalValue} differs from health-zone sum ${zoneSum} on ${date}`
+          );
+        }
+      }
+    }
+  }
 };
 
 for (const row of places) {
@@ -102,18 +211,48 @@ for (const row of counts) {
   required(row, 'date', context);
   required(row, 'entity_id', context);
   required(row, 'source_id', context);
+  required(row, 'entity_type', context);
   if (!isoDate(row.date)) errors.push(`${context}: invalid date`);
   if (!placeIds.has(row.entity_id)) errors.push(`${context}: unknown entity_id ${row.entity_id}`);
   if (!sourceIds.has(row.source_id)) errors.push(`${context}: unknown source_id ${row.source_id}`);
+  if (!hasLabel('entity_type', row.entity_type)) errors.push(`${context}: invalid entity_type ${row.entity_type}`);
   if (!hasLabel('confidence', row.confidence)) errors.push(`${context}: invalid confidence ${row.confidence}`);
   if (!hasLabel('data_status', row.data_status)) errors.push(`${context}: invalid data_status ${row.data_status}`);
+  if (row.entity_type === 'health_zone' && row.date !== HEALTH_ZONE_REFERENCE_DATE) {
+    warnings.push(`${context}: health_zone breakdown on ${row.date}; only ${HEALTH_ZONE_REFERENCE_DATE} (INSP) is treated as reliable`);
+  }
   ['confirmed_cases', 'suspected_cases', 'confirmed_deaths', 'suspected_deaths', 'contacts'].forEach((field) => {
     if (!numberOk(row[field])) errors.push(`${context}: invalid number ${field}`);
   });
 }
 
-if (events.some((row) => row.date > '2026-06-05')) {
-  warnings.push('events contain dates after 2026-06-05');
+for (const column of genericDeathColumns(counts.columns || [])) {
+  errors.push(`counts.csv: generic death column "${column}" is not allowed; use confirmed_deaths and suspected_deaths`);
+}
+
+const countKeys = new Set();
+for (const row of counts) {
+  const key = `${row.date}|${row.entity_id}|${row.source_id}`;
+  if (countKeys.has(key)) errors.push(`counts:${row.count_id}: duplicate date/entity_id/source_id ${key}`);
+  countKeys.add(key);
+}
+
+// Les lignes disputed ne font pas partie des series validees : on les ecarte
+// des controles de monotonie et de coherence pour eviter les faux positifs.
+const seriesCounts = counts.filter((row) => row.data_status !== 'disputed');
+checkNonDecreasing(seriesCounts, 'confirmed_cases');
+checkNonDecreasing(seriesCounts, 'confirmed_deaths');
+checkNonDecreasing(seriesCounts, 'suspected_deaths');
+warnSuspectedDeathsGaps(seriesCounts);
+warnStrongSuspectedCaseDrops(seriesCounts);
+warnNationalZoneMismatches(seriesCounts);
+
+// Date de gel editorial de la couverture actuelle. Au-dela, un evenement
+// signale simplement que la couverture a ete etendue et merite une relecture
+// de coherence (chiffres, sources, recit). A relever quand la couverture avance.
+const EDITORIAL_COVERAGE_END = '2026-06-11';
+if (events.some((row) => row.date > EDITORIAL_COVERAGE_END)) {
+  warnings.push(`events contain dates after ${EDITORIAL_COVERAGE_END}`);
 }
 
 if (errors.length > 0) {

@@ -4,6 +4,74 @@ Ce fichier suit les changements substantiels apportes au jeu de donnees de refer
 
 Il ne remplace pas les sources. Il sert a documenter les ajouts, corrections et points a verifier.
 
+## 2026-06-15
+
+- Debut du protocole d'enrichissement editorial (Phase A, jour par jour), avec
+  recherche web par evenement et affichage en francais accentue.
+- Source ajoutee : `who_don602_2026_05_16` (OMS Disease Outbreak News, 16 mai 2026).
+- Evenements enrichis et resources sur l'OMS DON602 :
+  - 24 avril (`ev_20260424_bunia_first_known`) : detail clinique + retard de detection de ~4 semaines.
+  - 5 mai (`ev_20260505_mongbwalu_alert`) : alerte precisee (quatre soignants morts en quatre jours).
+- Evenement cree : `ev_20260501_care_seeking` (1er mai), **reconstruction** de la
+  migration de soins Mongbwalu -> Rwampara/Bunia. Date approximative : aucune source
+  ne date precisement ces deplacements (periode de circulation silencieuse).
+
+## 2026-06-13
+
+- Reactualisation INRB-UMIE via le script de staging automatique.
+- Snapshot amont integre : `6f156b6` (build manifest `1dfdf1e`, construit le 2026-06-12).
+- Source ajoutee : `inrb_umie_2026_06_13_snapshot`.
+- 4 lignes `counts.csv` ajoutees pour `drc_total`, du 8 au 11 juin :
+  - 8 juin : 598 confirmes, 138 suspects, 115 deces confirmes, deces suspects non communiques (ND).
+  - 9 juin : 635 confirmes, 119 suspects, 127 deces confirmes, deces suspects ND.
+  - 10 juin : 676 confirmes, 119 suspects, 136 deces confirmes, deces suspects ND.
+  - 11 juin : 689 confirmes, 168 suspects, 139 deces confirmes, **64 deces suspects** repris apres plusieurs jours sans communication.
+- Point d'arbitrage : la serie des deces suspects passe de 242 (dernier point du
+  7 juin) a 64 le 11 juin. Forte baisse documentee comme revision / reclassement
+  ou changement de definition cote source ; les jours intermediaires restent ND
+  (champs vides, pas des zeros).
+- Un point de situation par date (`ev_2026060[8-9]`, `ev_2026061[0-1]_inrb_umie_update`)
+  pour que la timeline progresse jour par jour et ne saute pas du 7 au 11 juin.
+  Ces points restent cales sur la seule source chiffree INRB-UMIE (pas de recit
+  de terrain, qui demanderait des sources editoriales separees).
+- L'amont s'arrete au 11 juin (pas de bilan 12-13 juin dans ce snapshot).
+- Borne de couverture editoriale (`EDITORIAL_COVERAGE_END`) portee au 11 juin 2026.
+- **Reste a faire (recit)** : les chiffres 8-11 juin sont integres, mais les
+  evenements narratifs de ces jours (« histoire a raconter ») restent a sourcer
+  separement (rapports Africa CDC ou presse), la serie INRB-UMIE ne fournissant
+  que les chiffres nationaux.
+
+## 2026-06-08
+
+- Bascule controlee de la serie nationale RDC vers INRB-UMIE/INSP depuis le
+  snapshot `fd27d5c` du 2026-06-08 (build manifest `979a344`).
+- Source ajoutee : `inrb_umie_2026_06_08_snapshot`.
+- Les anciennes lignes nationales `drc_total` issues de sources multiples
+  (documents locaux, OMS, AP, Jeune Afrique, El Pais, Africa CDC) sont remplacees
+  par une serie nationale unique INRB-UMIE du 14 mai au 6 juin.
+- Les lignes non nationales restent en place : Ouganda et photographie par zones
+  de sante du 20 mai.
+- Points d'arbitrage : la serie INRB-UMIE contient des revisions/reclassements,
+  dont une baisse des cas confirmes le 30 mai et plusieurs baisses de cas
+  suspects. Les notes de `counts.csv` documentent ces ruptures.
+- Les deces suspects ne sont pas communiques sur plusieurs dates. Ces absences
+  restent des champs vides, pas des zeros.
+- Rappel : deces confirmes et deces suspects restent separes; aucune serie
+  generique « deces » ne doit etre reconstituee.
+
+## 2026-06-09
+
+- Mise a jour INRB-UMIE via le script de staging automatique.
+- Snapshot amont integre pour le point national du 7 juin :
+  `4735863` (build manifest `6bc4479`, construit le 2026-06-09).
+- Source ajoutee : `inrb_umie_2026_06_09_snapshot`.
+- Ligne `counts.csv` ajoutee pour `drc_total` au 2026-06-07 :
+  550 cas confirmes, 94 cas suspects, 101 deces confirmes, 242 deces suspects
+  reportes avec asterisque sur la plateforme INRB-UMIE.
+- Evenement `ev_20260607_inrb_umie_update` ajoute pour synchroniser la timeline
+  et le panneau narratif avec le dernier bilan national.
+- Borne publique de la storymap portee au 7 juin 2026.
+
 ## 2026-06-07
 
 - Extension de la chronologie aux **1-5 juin** (rapports quotidiens Africa CDC) :

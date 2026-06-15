@@ -22,14 +22,6 @@ const asDataStatus = (value: string): DataStatus => {
   return 'provisional';
 };
 
-export const statusColor: Record<DataStatus, string> = {
-  confirmed: '#1f8a70',
-  suspected: '#d08b28',
-  provisional: '#5767c9',
-  reconstructed: '#8a5a9e',
-  disputed: '#b83b3b',
-};
-
 export async function loadData(): Promise<AppData> {
   const [placesRows, eventsRows, flowsRows, countRows, sourceRows] = await Promise.all([
     csv(assetPath('/data/reference/places.csv')),

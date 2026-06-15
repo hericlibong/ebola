@@ -76,227 +76,6 @@ code {
   line-height: 0;
 }
 
-.legend {
-  position: absolute;
-  left: 16px;
-  bottom: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  max-width: calc(100% - 32px);
-  padding: 8px 10px;
-  border: 1px solid rgba(32, 36, 42, 0.16);
-  background: rgba(255, 255, 255, 0.92);
-  color: #20242a;
-  font-size: 0.78rem;
-  box-shadow: 0 10px 24px rgba(32, 36, 42, 0.14);
-}
-
-.legend span {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  white-space: nowrap;
-}
-
-.legend i {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.legend .confirmed {
-  background: #15745f;
-}
-
-.legend .provisional {
-  background: #4b5cae;
-}
-
-.legend .reconstructed {
-  background: #88568f;
-}
-
-.legend .case-size {
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(75, 92, 174, 0.72);
-  background: rgba(75, 92, 174, 0.14);
-}
-
-.place-marker {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  width: auto;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: #20242a;
-  cursor: pointer;
-  transform: translate(-8px, -8px);
-  pointer-events: auto;
-}
-
-.case-bubble {
-  position: absolute;
-  left: calc(var(--bubble-size) / -2 + 7px);
-  top: calc(var(--bubble-size) / -2 + 7px);
-  width: var(--bubble-size);
-  height: var(--bubble-size);
-  display: inline-grid;
-  place-items: center;
-  border: 2px solid rgba(75, 92, 174, 0.68);
-  border-radius: 50%;
-  background: rgba(75, 92, 174, 0.16);
-  color: #1c2026;
-  font-size: 0.68rem;
-  font-weight: 900;
-  z-index: -1;
-}
-
-.place-dot {
-  width: 14px;
-  height: 14px;
-  display: inline-block;
-  border: 2px solid #ffffff;
-  border-radius: 50%;
-  background: var(--marker-color);
-  box-shadow: 0 3px 10px rgba(32, 36, 42, 0.26);
-}
-
-.place-marker.is-reconstructed .place-dot {
-  border-style: dashed;
-}
-
-.place-marker.is-provisional .place-dot {
-  box-shadow: 0 0 0 5px rgba(75, 92, 174, 0.16), 0 3px 10px rgba(32, 36, 42, 0.22);
-}
-
-.place-marker.is-active .place-label {
-  border-color: #15181c;
-}
-
-.place-label {
-  max-width: 140px;
-  padding: 3px 6px;
-  border: 1px solid rgba(32, 36, 42, 0.18);
-  background: rgba(255, 255, 255, 0.92);
-  color: #20242a;
-  font-size: 0.72rem;
-  font-weight: 800;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  box-shadow: 0 4px 12px rgba(32, 36, 42, 0.14);
-}
-
-/* Marqueurs de phase (focus depuis la legende timeline) : plus discrets que
-   le marqueur actif, colores par la phase. */
-.phase-marker {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  transform: translate(-5px, -5px);
-  pointer-events: auto;
-}
-
-.phase-dot {
-  width: 11px;
-  height: 11px;
-  border: 2px solid #ffffff;
-  border-radius: 50%;
-  background: var(--phase-color, #8a96a3);
-  box-shadow: 0 2px 7px rgba(32, 36, 42, 0.28);
-}
-
-.phase-marker-label {
-  padding: 2px 5px;
-  background: rgba(255, 255, 255, 0.86);
-  color: #33373d;
-  font-size: 0.68rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.maplibregl-popup-content {
-  max-width: 300px;
-  padding: 0;
-  border-radius: 0;
-  box-shadow: 0 12px 28px rgba(32, 36, 42, 0.2);
-  color: #20242a;
-  font: 0.82rem/1.35 Inter, ui-sans-serif, system-ui, sans-serif;
-}
-
-.event-tooltip {
-  padding: 12px 13px;
-}
-
-.event-tooltip p,
-.event-tooltip h2 {
-  margin: 0;
-}
-
-.event-tooltip h2 {
-  margin-top: 3px;
-  color: #171a1e;
-  font-size: 1rem;
-  line-height: 1.15;
-}
-
-.event-tooltip p:not(.tooltip-date):not(.tooltip-status) {
-  margin-top: 9px;
-}
-
-.event-tooltip footer {
-  margin-top: 10px;
-  color: #6b6258;
-  font-size: 0.74rem;
-}
-
-.tooltip-date {
-  color: #6a6258;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.tooltip-status {
-  display: inline-flex;
-  margin-top: 7px;
-  padding: 3px 7px;
-  color: #ffffff;
-  font-size: 0.72rem;
-  font-weight: 800;
-}
-
-.tooltip-status.is-confirmed {
-  background: #15745f;
-}
-
-.tooltip-status.is-provisional {
-  background: #4b5cae;
-}
-
-.tooltip-status.is-reconstructed {
-  background: #88568f;
-}
-
-.tooltip-status.is-suspected {
-  background: #c27a20;
-}
-
-.tooltip-status.is-disputed {
-  background: #a73b38;
-}
-
 /* Le panneau ne pilote PAS la hauteur de la rangee (sinon le bloc saute quand
    le texte change selon la date). C'est la carte (hauteur = largeur x ratio,
    donc stable) qui fixe la rangee ; le texte defile dans un calque interne. */
@@ -367,10 +146,6 @@ blockquote {
   text-transform: uppercase;
 }
 
-.tally .metric-strip {
-  margin-top: 8px;
-}
-
 /* Courbe d'evolution nationale (panneau recit) */
 .evo-curve {
   width: 100%;
@@ -382,10 +157,12 @@ blockquote {
 .evo-line.evo-confirmed { stroke: #15745f; stroke-width: 2.2; }
 .evo-line.evo-suspected { stroke: #c8913c; stroke-width: 1.6; }
 .evo-line.evo-deaths { stroke: #b5403a; stroke-width: 1.6; }
+.evo-line.evo-suspected-deaths { stroke: #7f5aa2; stroke-width: 1.5; }
 .evo-dot { stroke: #ffffff; stroke-width: 1; }
 .evo-dot.evo-confirmed { fill: #15745f; }
 .evo-dot.evo-suspected { fill: #c8913c; }
 .evo-dot.evo-deaths { fill: #b5403a; }
+.evo-dot.evo-suspected-deaths { fill: #7f5aa2; }
 .evo-axis { stroke: rgba(32, 36, 42, 0.25); }
 .evo-now { stroke: rgba(32, 36, 42, 0.18); stroke-dasharray: 2 2; }
 .evo-axis-label { fill: #8a8275; font-size: 9px; }
@@ -403,6 +180,7 @@ blockquote {
 .evo-key.evo-confirmed::before { background: #15745f; }
 .evo-key.evo-suspected::before { background: #c8913c; }
 .evo-key.evo-deaths::before { background: #b5403a; }
+.evo-key.evo-suspected-deaths::before { background: #7f5aa2; }
 
 .tally-figure {
   margin: 9px 0 0;
@@ -434,106 +212,12 @@ blockquote {
   font-style: italic;
 }
 
-.metric-strip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 18px;
-}
-
-.metric-strip span {
-  padding: 7px 9px;
-  border: 1px solid rgba(32, 36, 42, 0.14);
-  background: #ffffff;
-  font-size: 0.82rem;
-}
-
-.metric-strip strong {
-  margin-right: 4px;
-}
-
-.uncertainty-note {
-  display: grid;
-  gap: 5px;
-  margin-top: 18px;
-  padding: 11px 12px;
-  border-left: 4px solid #c27a20;
-  background: #fff7e7;
-  color: #3c3428;
-  font-size: 0.86rem;
-}
-
 .source-line {
   margin: 20px 0 0;
   padding-top: 12px;
   border-top: 1px solid rgba(32, 36, 42, 0.12);
   color: #6a6258;
   font-size: 0.82rem;
-}
-
-.uncertainty-note strong {
-  font-size: 0.72rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.metadata {
-  display: grid;
-  gap: 10px;
-  margin: 20px 0 0;
-}
-
-.metadata div {
-  padding-top: 9px;
-  border-top: 1px solid rgba(32, 36, 42, 0.12);
-}
-
-.metadata dt {
-  color: #6a6258;
-  font-size: 0.72rem;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-.metadata dd {
-  margin: 3px 0 0;
-  color: #20242a;
-  font-size: 0.9rem;
-}
-
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  min-height: 23px;
-  padding: 3px 8px;
-  color: #ffffff;
-  font-size: 0.76rem;
-  font-weight: 800;
-}
-
-.status-pill.is-confirmed,
-.step-index.is-confirmed {
-  background: #15745f;
-}
-
-.status-pill.is-provisional,
-.step-index.is-provisional {
-  background: #4b5cae;
-}
-
-.status-pill.is-reconstructed,
-.step-index.is-reconstructed {
-  background: #88568f;
-}
-
-.status-pill.is-suspected,
-.step-index.is-suspected {
-  background: #c27a20;
-}
-
-.status-pill.is-disputed,
-.step-index.is-disputed {
-  background: #a73b38;
 }
 
 /* ===== Carte editoriale figee (SVG/D3) ===== */
@@ -591,6 +275,12 @@ blockquote {
 .map-place.is-active .place-pin { fill: #15745f; }
 .map-place.is-active .place-name { font-size: 20px; }
 .map-place.is-dimmed { opacity: 0.28; }
+
+/* Devoilement progressif : lieux pas encore atteints par la date active,
+   presents en filigrane (geographie suggeree) et sans etiquette. */
+.map-place.is-future { opacity: 0.16; }
+.map-place.is-future .place-name { display: none; }
+.map-place.is-future .place-pin { fill: #6a6258; }
 .map-place[style*="--phase-color"] .place-pin { fill: var(--phase-color); }
 
 /* C2 — bulles de cas par zone (instantane du 20 mai) */
@@ -854,5 +544,48 @@ blockquote {
   #story {
     position: static;
     padding: 22px 20px;
+  }
+}
+
+/* Palier telephone : la rangee est deja empilee (< 900px) ; ici on resserre
+   pour eviter le chevauchement des annotations de timeline et l'encombrement
+   de l'encart carte sur les petites largeurs. */
+@media (max-width: 600px) {
+  .article-shell {
+    width: calc(100% - 16px);
+    padding: 18px 0 36px;
+  }
+
+  .article-intro {
+    margin-bottom: 16px;
+  }
+
+  #story {
+    padding: 18px 16px;
+  }
+
+  .timeline-axis {
+    padding: 10px 12px 4px;
+  }
+
+  .axis-annot-text {
+    width: 104px;
+    font-size: 0.62rem;
+  }
+
+  .axis-tick-label,
+  .axis-annot-date {
+    font-size: 0.6rem;
+  }
+
+  .timeline-legend {
+    padding: 4px 12px 12px;
+  }
+
+  /* Encart de localisation plus discret sur petit ecran. */
+  .map-inset {
+    width: 96px;
+    left: 8px;
+    bottom: 8px;
   }
 }
