@@ -522,6 +522,19 @@ blockquote {
   background: #ffffff;
 }
 
+/* Navigation mobile de la timeline (paliers precedent/suivant + legende du
+   jalon actif). Masquee par defaut : elle ne sert qu'au palier telephone. */
+.timeline-mobilenav {
+  display: none;
+}
+
+/* Habillage du bottom-sheet (poignee + barre de controles) : reserve au
+   palier telephone, masque sur desktop ou le recit est une colonne. */
+.sheet-grip,
+.sheet-controls {
+  display: none;
+}
+
 @media (max-width: 900px) {
   .article-shell {
     width: min(100% - 20px, 680px);
@@ -587,5 +600,212 @@ blockquote {
     width: 96px;
     left: 8px;
     bottom: 8px;
+  }
+}
+
+/* ============================================================
+   Palier telephone (<= 700px) : disposition mobile dediee.
+   Brique 1 — carte fixe (sticky) en haut, hauteur plafonnee, toujours
+   visible pendant l'interaction. Brique 2 — timeline collee sous la carte,
+   axe compact (sous-titres masques) + navigation par paliers.
+   ============================================================ */
+@media (max-width: 700px) {
+  /* Reordonne l'empilement : carte -> timeline -> recit. */
+  .map-panel {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    order: 1;
+    height: 42vh;
+    box-shadow: 0 6px 16px rgba(32, 36, 42, 0.14);
+  }
+
+  #map {
+    height: 100%;
+  }
+
+  /* La carte (SVG, preserveAspectRatio meet) se contient dans la hauteur
+     plafonnee et se centre ; le fond comble l'eventuel letterbox. */
+  .static-map {
+    width: 100%;
+    height: 100%;
+  }
+
+  .timeline-rail {
+    order: 2;
+  }
+
+  /* Intro compacte : on libere de la hauteur pour la carte (vue "app"). */
+  .article-intro {
+    margin-bottom: 8px;
+  }
+
+  .article-intro .eyebrow,
+  .article-intro p:last-child {
+    display: none;
+  }
+
+  .article-intro h1 {
+    font-size: 1.4rem;
+  }
+
+  /* --- Brique 3 : recit en bottom-sheet --- */
+  /* Sorti du flux : la rangee ne contient plus que carte + timeline (colle a
+     la carte). Le sheet glisse depuis le bas par-dessus la partie basse,
+     la carte epinglee restant visible au-dessus. */
+  .story-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    max-height: 50vh;
+    min-height: 0;
+    border: 0;
+    border-top: 1px solid rgba(32, 36, 42, 0.18);
+    border-radius: 16px 16px 0 0;
+    background: #fffdf8;
+    box-shadow: 0 -12px 32px rgba(32, 36, 42, 0.24);
+    transform: translateY(110%);
+    transition: transform 0.28s ease;
+    overflow: hidden;
+  }
+
+  .story-module.is-sheet-open .story-panel {
+    transform: translateY(0);
+  }
+
+  .sheet-grip {
+    display: block;
+    flex: 0 0 auto;
+    width: 40px;
+    height: 4px;
+    margin: 8px auto 2px;
+    border-radius: 999px;
+    background: rgba(32, 36, 42, 0.22);
+  }
+
+  .sheet-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px 8px;
+    border-bottom: 1px solid rgba(32, 36, 42, 0.1);
+  }
+
+  .sheet-nav {
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(32, 36, 42, 0.22);
+    border-radius: 10px;
+    background: #fbfaf6;
+    color: #33373d;
+    font-size: 1.05rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .sheet-nav:disabled {
+    opacity: 0.32;
+    cursor: default;
+  }
+
+  .sheet-close {
+    flex: 1 1 auto;
+    height: 44px;
+    border: 1px solid rgba(32, 36, 42, 0.22);
+    border-radius: 10px;
+    background: #15745f;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* Le recit defile a l'interieur du sheet (et non plus en calque absolu). */
+  #story {
+    position: static;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 16px 18px 22px;
+  }
+
+  /* --- Brique 2 : axe compact --- */
+  /* Sous-titres des jalons masques : illisibles et se chevauchent sur mobile.
+     Le titre du jalon actif est repris dans la nav ci-dessous. */
+  .axis-annot {
+    display: none;
+  }
+
+  .timeline-axis {
+    padding: 10px 12px 2px;
+  }
+
+  /* L'axe n'a plus a reserver la hauteur des annotations : on remonte la
+     ligne de base, les points et les graduations. */
+  .axis-track {
+    height: 52px;
+  }
+
+  .axis-track::after {
+    top: 32px;
+  }
+
+  .axis-dot {
+    top: calc(32px - var(--row, 0) * 11px);
+  }
+
+  .axis-tick {
+    top: 32px;
+  }
+
+  /* --- Nav par paliers : grosses cibles tactiles --- */
+  .timeline-mobilenav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 12px 12px;
+  }
+
+  .tl-prev,
+  .tl-next {
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(32, 36, 42, 0.22);
+    border-radius: 10px;
+    background: #fbfaf6;
+    color: #33373d;
+    font-size: 1.05rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .tl-prev:disabled,
+  .tl-next:disabled {
+    opacity: 0.32;
+    cursor: default;
+  }
+
+  .tl-caption {
+    flex: 1 1 auto;
+    text-align: center;
+    color: #33373d;
+    font-size: 0.82rem;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tl-caption-date {
+    display: block;
+    color: var(--phase-color, #6a6258);
+    font-size: 0.72rem;
+    font-weight: 800;
   }
 }

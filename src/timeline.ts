@@ -163,6 +163,56 @@ function appendPhaseLegend(
   container.appendChild(legend);
 }
 
+// Navigation mobile : sur petit ecran, l'axe horizontal sert de repere mais
+// les points sont trop serres pour le doigt et les sous-titres se chevauchent
+// (masques en CSS). On expose ici une nav par paliers (precedent / suivant)
+// avec une legende d'une ligne pour le jalon actif. Cachee en desktop (CSS).
+function appendMobileNav(
+  container: HTMLElement,
+  events: Event[],
+  activeEventId: string,
+  onSelect: (event: Event) => void,
+): void {
+  if (events.length === 0) return;
+
+  const idx = events.findIndex((event) => event.event_id === activeEventId);
+  const active = idx >= 0 ? events[idx]! : events[0]!;
+
+  const nav = document.createElement('div');
+  nav.className = 'timeline-mobilenav';
+  nav.style.setProperty('--phase-color', phaseColor(active.timeline_group));
+
+  const prev = document.createElement('button');
+  prev.type = 'button';
+  prev.className = 'tl-prev';
+  prev.setAttribute('aria-label', 'Evenement precedent');
+  prev.textContent = '◀';
+  prev.disabled = idx <= 0;
+  prev.addEventListener('click', () => {
+    if (idx > 0) onSelect(events[idx - 1]!);
+  });
+
+  const next = document.createElement('button');
+  next.type = 'button';
+  next.className = 'tl-next';
+  next.setAttribute('aria-label', 'Evenement suivant');
+  next.textContent = '▶';
+  next.disabled = idx < 0 || idx >= events.length - 1;
+  next.addEventListener('click', () => {
+    if (idx >= 0 && idx < events.length - 1) onSelect(events[idx + 1]!);
+  });
+
+  const caption = document.createElement('span');
+  caption.className = 'tl-caption';
+  caption.innerHTML = `
+    <span class="tl-caption-date">${escapeHtml(shortDateFr(active.date))}</span>
+    ${escapeHtml(active.headline)}
+  `;
+
+  nav.append(prev, caption, next);
+  container.appendChild(nav);
+}
+
 export function renderTimeline({
   container,
   events,
@@ -173,5 +223,6 @@ export function renderTimeline({
 }: TimelineOptions): void {
   container.innerHTML = '';
   appendTimeAxis(container, events, activeEventId, activePhase, onSelect);
+  appendMobileNav(container, events, activeEventId, onSelect);
   appendPhaseLegend(container, events, activePhase, onPhaseToggle);
 }
