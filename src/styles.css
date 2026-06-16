@@ -661,7 +661,7 @@ blockquote {
     z-index: 20;
     display: flex;
     flex-direction: column;
-    max-height: 60vh;
+    max-height: 50vh;
     min-height: 0;
     border: 0;
     border-top: 1px solid rgba(32, 36, 42, 0.18);
