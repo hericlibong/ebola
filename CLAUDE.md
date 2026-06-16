@@ -29,9 +29,14 @@ Le socle est `public/data/reference/*.csv`, et non du code. `src/data.ts#loadDat
 `src/main.ts` est le seul état applicatif : deux variables, `activeEvent` et `activePhase`. Tout rendu est une fonction pure de ces deux valeurs + `AppData`. Sélectionner un event ou basculer une phase re-rend les trois panneaux (story, timeline, carte). Pas de framework réactif — re-render impératif explicite.
 
 ### Les trois vues
-- `src/staticMap.ts` — **la carte réellement utilisée**. Carte SVG statique en projection plate-carrée manuelle calée sur une bbox fixe + image hillshade EPSG:4326. Dessine les fonds `public/geo/*.json`, les lieux cités, et des bulles proportionnelles aux cas par zone.
-- `src/map.ts` — version MapLibre GL **non utilisée** : `map.ts` n'est importé nulle part (`main.ts` n'utilise que `staticMap.ts`). La dépendance `maplibre-gl` ne sert donc pas au rendu actif. Ne pas supposer que modifier `map.ts` change l'app.
+- `src/map.ts` — **la carte réellement utilisée** (exporte `initStaticMap`/`renderStaticMap`, importés par `main.ts`). Carte SVG statique en projection plate-carrée manuelle calée sur une bbox fixe + image hillshade EPSG:4326. Dessine les fonds `public/geo/*.json`, les lieux cités, et des bulles proportionnelles aux cas par zone. (Pas de MapLibre : la dépendance a été retirée, il n'existe plus de `staticMap.ts`.)
 - `src/story.ts` — panneau récit + courbe d'évolution nationale SVG. `src/timeline.ts` — axe temporel + légende de phases cliquable.
+
+### Disposition responsive / mobile (palier téléphone, `@media (max-width: 700px)`)
+Sous 700 px, la grille desktop bascule vers une **disposition mobile dédiée** (pas un simple repli), entièrement en CSS sauf l'état d'ouverture du sheet :
+- **Carte `sticky`** en haut (hauteur plafonnée 42vh) : elle reste visible pendant l'interaction. Ordre d'empilement carte → timeline → récit (via `order`).
+- **Timeline compacte** : les sous-titres des jalons (`.axis-annot`) sont **masqués** (illisibles/chevauchants sur mobile) ; `timeline.ts` rend en plus une nav par paliers `◀ ▶` (`.timeline-mobilenav`) avec une légende d'une ligne pour le jalon actif. Cette nav et les sous-titres sont les deux faces du même axe : ne pas réafficher les sous-titres sur mobile.
+- **Récit en bottom-sheet** : `.story-panel` passe en `position: fixed` hors flux et glisse depuis le bas quand `main.ts` ajoute `.is-sheet-open` sur `.story-module`. Sélectionner un jalon ouvre le sheet (`if (isMobile()) openSheet()` dans `selectEvent`) ; le sheet porte sa propre nav `◀ ▶` (`#sheet-prev`/`#sheet-next`) et un bouton Fermer. `isMobile()` = `matchMedia('(max-width: 700px)')`. Les contrôles du sheet et la nav timeline sont masqués sur desktop.
 
 `src/phases.ts` est la **source unique de vérité** pour l'ordre, les libellés FR et les couleurs des phases narratives (`timeline_group`). Toute nouvelle phase doit y être ajoutée ET dans `labels.csv` (groupe `timeline_group`).
 
@@ -40,7 +45,7 @@ Le socle est `public/data/reference/*.csv`, et non du code. `src/data.ts#loadDat
 ### Règles métier non évidentes (encodées dans le code, à préserver)
 - **Cas/décès confirmés et suspects sont quatre séries distinctes.** Ne jamais les fondre en un champ générique `deaths`/`cases` : le validateur rejette explicitement toute colonne `deaths`/`deces` générique dans `counts.csv`, et le code lit les fausses baisses quand le type change.
 - **`ND` / champ vide ≠ `0`.** `ND` = non rapporté. Ne jamais convertir en zéro.
-- La ventilation des cas par **zone de santé** n'est fiable qu'au **20 mai** (point INSP) : `staticMap.ts` et `story.ts` n'affichent les bulles/répartition par ville qu'à cette date exacte, alors que le total national `drc_total` évolue dans le temps.
+- La ventilation des cas par **zone de santé** n'est fiable qu'au **20 mai** (point INSP) : `map.ts` et `story.ts` n'affichent les bulles/répartition par ville qu'à cette date exacte, alors que le total national `drc_total` évolue dans le temps.
 - Les lignes `data_status = disputed` sont écartées des bilans nationaux affichés.
 
 ## Pipeline INRB-UMIE (source externe → staging → validation humaine)
