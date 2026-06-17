@@ -1,0 +1,27 @@
+name: Notifier mise a jour auto
+
+# Quand la routine quotidienne ouvre une PR de donnees (branche auto/data-*),
+# poste un commentaire qui mentionne le mainteneur. Le commentaire etant ecrit
+# par le robot github-actions (et non par l'auteur de la PR), GitHub envoie bien
+# une notification de mention par e-mail — ce que GitHub ne fait jamais pour une
+# PR ouverte par soi-meme.
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  notify:
+    if: startsWith(github.head_ref, 'auto/data-')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Commenter et mentionner le mainteneur
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment "${{ github.event.pull_request.number }}" \
+            --repo "${{ github.repository }}" \
+            --body "@hericlibong Nouvelle mise a jour de donnees a relire : ${{ github.event.pull_request.html_url }} — passer la PR en *Ready for review* puis *Merge* ; ensuite demander le deploiement."
