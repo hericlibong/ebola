@@ -93,6 +93,17 @@ Regle :
 
 > Un `place_id` peut etre narratif ou statistique sans etre cartographique.
 
+Le meme mecanisme sert aux lieux **reels mais pas encore geolocalises** : une zone
+de sante dont les coordonnees ne sont pas verifiees est declaree avec `latitude` et
+`longitude` vides et une `notes` qui l'explique. L'evenement est ainsi rattache au
+bon lieu nomme, la carte l'ignore, et il suffira de renseigner les coordonnees pour
+l'afficher. C'est le cas de `nizi`.
+
+Regle :
+
+> Un lieu sans coordonnees verifiees est declare sans coordonnees. On ne l'ancre
+> jamais sur un lieu voisin servant de proxy : la carte mentirait.
+
 ## Quand creer un nouveau `place_id`
 
 Creer un nouveau `place_id` seulement si le lieu est utile pour au moins l'un de ces usages :
@@ -178,8 +189,29 @@ Chaque ligne de `events.csv` doit contenir :
 | `suspected_deaths` | Deces suspects associes au fait. |
 | `contacts` | Contacts listes ou suivis. |
 | `notes` | Note interne de prudence ou d'interpretation. |
+| `counts_policy` | Politique de rattachement des bilans chiffres. Voir ci-dessous. |
 
 Les champs chiffres vides ne signifient pas zero. Ils signifient que la valeur n'est pas renseignee pour cette ligne.
+
+### `counts_policy`
+
+Un evenement peut citer dans son `fact_text` un bilan contemporain attribue a une
+source donnee (OMS, Africa CDC, presse) alors que la serie INRB-UMIE retrospective
+donne, pour la meme date, des valeurs differentes. Les deux sont exactes dans leur
+propre referentiel ; les fusionner ou les afficher cote a cote sans le dire fabrique
+une contradiction.
+
+| Valeur | Effet |
+|---|---|
+| *(vide)* | Defaut. Les consommateurs peuvent rattacher a l'evenement les lignes de `counts.csv` de meme `date` et meme entite. |
+| `narrative_only` | L'evenement porte deja un bilan contemporain cite et attribue dans son texte. Aucun bilan chiffre issu d'une autre serie ne doit lui etre rattache. |
+
+Regle :
+
+> On ne remplace jamais silencieusement un bilan contemporain par sa revision
+> retrospective, et on n'affiche jamais les deux comme un seul chiffre.
+
+Neuf evenements de la fenetre du 20 au 31 mai 2026 portent `narrative_only`.
 
 ## Exemple de ligne bien formee
 
