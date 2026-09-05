@@ -4,6 +4,124 @@ Ce fichier suit les changements substantiels apportes au jeu de donnees de refer
 
 Il ne remplace pas les sources. Il sert a documenter les ajouts, corrections et points a verifier.
 
+## 2026-09-05
+
+Audit editorial du corpus arrete au 28 aout 2026 (122 events). Aucune donnee du
+30 aout n'est integree dans ce lot : les PR automatiques #73, #74 et #75 restent
+ouvertes et feront l'objet d'un controle differentiel separe.
+
+### Provinces
+
+Isiro, Wamba et Pawa appartiennent au **Haut-Uele**. Onze events les rattachaient
+au Bas-Uele, a la Tshopo ou au Maniema. Corriges : `ev_20260713_inrb_umie_update`,
+`ev_20260723_inrb_umie_update`, `ev_20260803_inrb_umie_update`,
+`ev_20260804_inrb_umie_update`, `ev_20260804_katwa_geo`, `ev_20260811_butembo_geo`,
+`ev_20260811_inrb_umie_update`, `ev_20260819_inrb_umie_update`,
+`ev_20260822_inrb_umie_update`, `ev_20260828_aru_geo` (renomme, voir plus bas) et
+`ev_20260828_inrb_umie_update`.
+
+Trois autres events portaient la meme erreur de province sans nommer de zone :
+`ev_20260815_inrb_umie_update`, `ev_20260820_inrb_umie_update` et
+`ev_20260826_inrb_umie_update`. Corriges egalement.
+
+Places : `isiro` et `wamba` ajoutes au referentiel avec coordonnees verifiees
+(Wikipedia / database.earth). Leurs `notes` portent la province exacte et la
+distance a Bunia.
+
+### Distances
+
+Les deux mentions de « plus de 700 km de Bunia » etaient fausses. Remplacees par
+des distances **a vol d'oiseau**, explicitement qualifiees et recalculees depuis
+les coordonnees de `places.csv` : Bunia-Isiro environ **322 km**, Bunia-Wamba
+environ **259 km**.
+
+### Dates, calculs et comparaisons
+
+- `ev_20260516_who_pheic` -> **`ev_20260517_who_pheic`** : la determination PHEIC
+  est datee du 17 mai 2026. `date` corrigee, `date_end` videe, « autour du
+  16-17 mai » retire.
+- `ev_20260520_insp_update` : le point publie le 20 mai porte sur les donnees du
+  **19 mai**. Date de reference rendue explicite dans le texte.
+- `ev_20260615_inrb_umie_update` : 34 -> **31** zones de sante.
+- `ev_20260617_nyankunde_surge` : Nyankunde etait a 45 cas les 15 et 16 juin puis
+  68 le 17. « Pratiquement doubler » -> **environ +51 %**.
+- `ev_20260620_inrb_umie_update` : « au moins cinq provinces » -> **trois
+  provinces : Ituri, Nord-Kivu et Sud-Kivu**.
+- `ev_20260623_inrb_umie_update` : 34 -> **33** zones de sante.
+- `ev_20260630_inrb_umie_update` : 933 cas / 245 deces sont les valeurs du
+  18 juin, pas l'ouverture de juin. Comparaison refaite au **1er juin : 344 cas
+  confirmes, 60 deces confirmes**.
+- `ev_20260711_inrb_umie_update` : 218 -> **302 cas supplementaires** depuis le
+  5 juillet (1 624). Parenthese contradictoire « 1 708 le 6 » supprimee.
+- `ev_20260720_inrb_umie_update` : Nizi « a double en trois semaines » -> **a plus
+  que triple depuis fin juin**.
+- `ev_20260720_katwa_geo` : Katwa ne depasse pas les autres zones du Nord-Kivu
+  reunies. -> **premiere zone du Nord-Kivu prise individuellement**.
+- `ev_20260731_inrb_umie_update` : environ 1 400 -> **1 100 nouveaux cas en juin**.
+- `ev_20260804_katwa_geo` : « depasse 200 » -> **atteint 200**.
+- `ev_20260809_inrb_umie_update` : « un mois et demi apres » -> **moins de trois
+  semaines apres** le millier de morts du 22 juillet.
+- `ev_20260810_inrb_umie_update` : valeurs du 11 aout retirees d'un event date du
+  10 aout.
+- `ev_20260811_inrb_umie_update` : « depasse 249 cas » -> **atteint 249 cas**.
+- `ev_20260824_inrb_umie_update` : comparaison vague remplacee par le calcul exact
+  — Nizi, environ **622 cas**, soit plus de trois fois le total du Nord-Kivu au
+  15 juillet (environ **199 cas**).
+- `ev_20260825_inrb_umie_update` : 80-100 -> **environ 70 a 80 nouveaux cas par
+  jour sur la periode recente**.
+- `ev_20260826_inrb_umie_update` : « Mangala (227) depasse Katwa (377) » etait faux
+  et melangeait des chiffres du 28 aout. Remplace par les valeurs du **26 aout** :
+  **Katwa 368, Mangala 212**, « Katwa reste nettement devant Mangala ».
+- `ev_20260828_inrb_umie_update` : « la moitie des cas » -> **plus de quatre cas
+  sur cinq**, soit environ 82,5 %.
+
+### Bilans contemporains du 20 au 31 mai : `counts_policy`
+
+Nouvelle colonne editoriale de `events.csv`, documentee dans
+`docs/reference-data-model.md`. Valeur `narrative_only` : l'event porte deja un
+bilan contemporain cite et attribue dans son texte (OMS, Africa CDC, El Pais), et
+aucun bilan chiffre d'une autre serie ne doit lui etre rattache.
+
+Neuf events marques : `ev_20260520_insp_update`, `ev_20260522_who_risk_very_high`,
+`ev_20260525_drc_904_disputed`, `ev_20260526_who_900_223`,
+`ev_20260528_238_deaths_reported`, `ev_20260529_cdc_update`,
+`ev_20260530_cdc_update`, `ev_20260530_contacts_gap`, `ev_20260531_cdc_update`.
+
+Sans ce drapeau, un consommateur qui joint `counts.csv` sur (date, entite) collait
+la serie INRB-UMIE retrospective a ces events : le texte d'`ev_20260529_cdc_update`
+annonce 203 confirmes (Africa CDC) tandis que la serie INRB donne 263 pour le meme
+jour. Les deux series restent intactes et ne sont ni fusionnees ni substituees.
+
+### Nizi
+
+`ev_20260630_fataki_geo` parlait de Nizi mais etait ancre sur `fataki`, une autre
+zone. Renomme en **`ev_20260630_nizi_geo`** et rattache a une nouvelle entite
+`nizi`, **declaree sans coordonnees** : aucune source fiable ne les donne (le
+staging INRB-UMIE note la zone comme absente du referentiel). L'event est donc
+correctement nomme mais sans ancrage cartographique. Renseigner
+`latitude`/`longitude` apres verification suffira a l'afficher. Aucune coordonnee
+approximative n'a ete inventee et le proxy Fataki n'a pas ete retabli.
+
+### Renommage
+
+`ev_20260828_aru_geo` -> **`ev_20260828_isiro_geo`**. L'event porte sur Isiro et
+Wamba ; `place_id` etait deja `isiro`, seuls l'identifiant et la note gardaient une
+reference obsolete a Aru. Les trois identifiants renommes n'etaient references
+nulle part ailleurs (ni `flows.csv`, ni `counts.csv`, ni `src/`, ni `docs/`).
+
+### Fins de ligne
+
+`events.csv` avait des fins de ligne **mixtes** : 65 de ses 123 lignes en CRLF,
+les autres en LF. Le fichier est normalise en **LF**, comme les cinq autres CSV du
+socle et comme les lignes ecrites par l'automatisation. Cela n'ajoute aucune
+churn : la nouvelle colonne `counts_policy` reecrivait deja toutes les lignes.
+
+### Validation
+
+`npm run validate:reference` : 48 labels, 17 places, 27 sources, 122 events,
+8 flows, 93 counts — passe, 27 avertissements, soit exactement le nombre d'avant
+le lot. `npm run build` passe.
+
 ## 2026-06-15
 
 - Debut du protocole d'enrichissement editorial (Phase A, jour par jour), avec
