@@ -4,6 +4,81 @@ Ce fichier suit les changements substantiels apportes au jeu de donnees de refer
 
 Il ne remplace pas les sources. Il sert a documenter les ajouts, corrections et points a verifier.
 
+## 2026-09-05 (2) — donnees du 30 aout
+
+Integration controlee du bilan INRB-UMIE du **30 aout 2026**. Le 29 aout n'a pas
+ete publie par la source (cadence SitRep).
+
+### Pourquoi la PR #73 n'a pas ete fusionnee telle quelle
+
+La branche `auto/data-2026-09-02` a ete creee sur `4ba0d77`, **avant** l'audit
+editorial de la PR #76. Son `events.csv` porte donc encore les 38 textes non
+corriges, les trois anciens identifiants, aucune colonne `counts_policy` et des
+fins de ligne mixtes. La fusionner aurait ressuscite ces versions.
+
+Seuls les **ajouts reellement nouveaux** ont donc ete reportes sur le `main`
+corrige (`e58747e`) :
+
+- `counts.csv` : 1 releve national, `ct_20260830_drc_inrb_umie` ;
+- `sources.csv` : 1 source, `inrb_umie_2026_09_02_snapshot` ;
+- `events.csv` : 2 events, `ev_20260830_inrb_umie_update` et `ev_20260830_katwa_geo` ;
+- `data/staging/` : le snapshot `a0d0f97` et son rapport de comparaison.
+
+Aucun CSV n'a ete remplace par la version de la PR #73.
+
+### Bilan national
+
+| Serie | 28 aout | 30 aout | Ecart |
+|---|---:|---:|---:|
+| Cas confirmes | 5 945 | **6 100** | +155 |
+| Deces confirmes | 2 862 | **2 950** | +88 |
+
+Cas suspects et deces suspects non communiques (ND).
+
+### Audit differentiel des deux nouveaux textes
+
+Verifie et exact : dates event/chiffres coherentes, totaux 6 100 / 2 950, ecart
++155 / +88 en deux jours, absence de publication le 29 aout, Katwa 390 (+13 sur
+les 377 du 28 aout), Butembo 165, Beni 138, somme 693 donc "plus de 690" correct,
+Bunia 1 397 et Rwampara 950 bien les deux premieres zones du pays, provinces
+exactes.
+
+Quatre erreurs certaines corrigees :
+
+1. **"cinq mois apres les premiers signaux"** -> "un peu plus de quatre mois".
+   Le premier signal documente est du 24 avril 2026 (`ev_20260424_bunia_first_known`),
+   soit 4 mois et 6 jours avant le 30 aout.
+2. **"deuxieme foyer du Nord-Kivu"** (titre de `ev_20260830_katwa_geo`) ->
+   "premiere zone du Nord-Kivu". Katwa (390) devance Butembo (165) et Beni (138) :
+   c'est la premiere zone de la province, ce que la PR #76 avait deja etabli pour
+   `ev_20260720_katwa_geo`. Le rang provincial du Nord-Kivu, deuxieme apres
+   l'Ituri, est desormais dit explicitement dans le corps du texte.
+3. **"le Nord-Kivu represente un ensemble de pres de 700 cas"** -> les 693 cas
+   sont le total des **trois zones citees**, pas de la province : Musienene
+   comptait deja 75 cas au 28 aout, le Nord-Kivu depasse donc 768.
+4. **"a 500 kilometres de l'epicentre iturien"** -> "environ 189 kilometres a vol
+   d'oiseau de Bunia". Distance orthodromique calculee depuis les coordonnees de
+   `places.csv` (Katwa 0,116513 / 29,371825 ; Bunia 1,5667 / 30,2500) : 188,5 km.
+   La meme methode redonne 321,6 km pour Bunia-Isiro et 258,9 km pour Bunia-Wamba,
+   conformes aux valeurs publiees le 2026-09-05.
+
+Corrige aussi : "depuis les premieres contaminations de juin" -> mi-mai. Le point
+INSP du 20 mai enregistre deja Katwa 1, Butembo 1 et Goma 1.
+
+Les corrections sont tracees dans le champ `notes` de chaque event.
+
+### Validation
+
+`npm run validate:reference` : 48 labels, 17 places, 28 sources, **124 events**,
+8 flows, **94 counts** — passe, 27 avertissements, inchange. `npm run build`
+passe. `git diff --check` : rien. Les acquis de la PR #76 sont intacts : 14
+mentions du Haut-Uele, distances a vol d'oiseau, 9 valeurs `narrative_only`,
+entite `nizi` sans coordonnees, fins de ligne LF, aucun ancien identifiant
+reintroduit.
+
+Les PR #74 et #75, cumulatives jusqu'au 1er et au 2 septembre, ne sont pas
+integrees et restent ouvertes.
+
 ## 2026-09-05
 
 Audit editorial du corpus arrete au 28 aout 2026 (122 events). Aucune donnee du
