@@ -3,3 +3,5 @@ dist/
 .DS_Store
 *.log
 data/staging/inrb_umie/.cache/
+data/staging/inrb_umie/snapshots/
+data/staging/inrb_umie/reports/
